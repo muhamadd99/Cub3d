@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/29 16:50:32 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:38:52 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	check_identifier(t_parse *parse, char *line, int *i)
 	else if (ft_strncmp("EA", line + *i, 3) == 0)
 		parse_texture(parse, 4, line, i);
 	else if (ft_strncmp("F ", line + *i, 2) == 0)
-		parse_colour(parse, 5, line, i);
+		parse_colour(parse, f, line, i);
 	else if (ft_strncmp("C ", line + *i, 2) == 0)
-		parse_colour(parse, 6, line, i);
+		parse_colour(parse, c, line, i);
 	else
 		return (1);
 	return (0);
@@ -68,11 +68,25 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 		print_error(p, "not enough param");
 }
 
-void	parse_colour()
+void	parse_colour(t_parse *p, char c, char *line, int *i)
 {
 	int		start;
-	char	*new_str
-	if (p->tex_)
+	char	*new_str;
+	if (c == 'f')
+	{
+		if (p->floor_flag == 0)
+			p->floor_flag = 1;
+		else
+			print_error(p, "2 Floor colour detected\n");
+	}
+	else
+	{
+		if (p->tex_flag == 0)
+			p->floor_flag = 1;
+		else
+			print_error(p, "2 ceiling colour detected\n"); 
+	}
+		
 }
 
 void	skip_space(char *line, int *i)

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/29 15:48:11 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/09/29 21:42:25 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ typedef	struct s_parse
 	int		ceiling_flag;
 } t_parse;
 
-int	wspace_check(char c);
+int		wspace_check(char c);
+int		parsing(t_parse *parse, int ac, char **av);
+void	parse_file(t_parse *parse, char **av);
+int		check_line(t_parse *parse, char *line);
+void	skip_whitespace(char *line, int *i);
+int		check_identifier(t_parse *parse, char *line, int *i);
+void	parse_texture(t_parse *p, int id, char *line, int *i);
+void	parse_colour(t_parse *p, char c, char *line, int *i);
+void	skip_space(char *line, int *i);
+void	print_error(t_parse *parse, char *message);
+
 
 #endif

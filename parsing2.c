@@ -6,11 +6,13 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/29 17:38:52 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/09/29 22:28:49 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
+
+static int	ft_isdigit(char c)
 
 //detect identifier
 int	check_identifier(t_parse *parse, char *line, int *i)
@@ -53,7 +55,7 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 		print_error(p, "not enough param");
 	//substr sentence
 	start = *i;
-	while(wspace_check == 0 && line[*i])
+	while(wspace_check(' ') == 0 && line[*i])
 		(*i)++;
 	if (line[*i] == '\n' && line[*i] == '\0')
 		print_error(p, "not enough param");
@@ -68,10 +70,15 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 		print_error(p, "not enough param");
 }
 
+//check f or c, check if they registered or not
+//if yes print error. if no flag
+//
 void	parse_colour(t_parse *p, char c, char *line, int *i)
 {
 	int		start;
 	char	*new_str;
+	int		rgb;
+	int		k;
 	if (c == 'f')
 	{
 		if (p->floor_flag == 0)
@@ -81,17 +88,46 @@ void	parse_colour(t_parse *p, char c, char *line, int *i)
 	}
 	else
 	{
-		if (p->tex_flag == 0)
-			p->floor_flag = 1;
+		if (p->ceiling_flag == 0)
+			p->ceiling_flag = 1;
 		else
 			print_error(p, "2 ceiling colour detected\n"); 
 	}
-		
+	//start looping to check the numbers
+	skip_space(line, i);
+	//inside while loop
+	k = 0;
+	while(k < 3);
+	{
+		start = *i;
+		while (ft_isdigit(line[*i]) == 1)
+			(*i)++;
+		if (start == *i || line[*i] != ',')
+			print_error(p, "no coordinate for colour");
+		new_str = ft_substr(line, start, *i - start);
+		rgb = ft_atoi(new_str);
+		//NEED to register to ceiling or floor
+		//
+		//
+		if (line[*i] == ',')
+			(*i)++;
+		k++;
+		// if (wspace_check(line[*i]) == 1 && line[*i])
+		// 	(*i)++;
+	}
+	
+}
+
+static int	ft_isdigit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
 
 void	skip_space(char *line, int *i)
 {
-	while (wspace_check == 1 && line[*i])
+	while (wspace_check(line[*i]) == 1 && line[*i])
 		(*i)++;
 }
 

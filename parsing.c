@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/29 15:48:28 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/09/29 21:55:30 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,16 @@ int	check_line(t_parse *parse, char *line)
 	i = 0;
 	while(line[i])
 	{
-		skip_whitespace(line, i);
+		skip_whitespace(line, &i);
 		if (check_identifier(parse, line, &i) == 1)
 			return (1);
-		while(wspace_check == 1)
-			i++;
-		
-		i++;
 	}
 	return (1);
 }
 
 void	skip_whitespace(char *line, int *i)
 {
-	while (wspace_check)
+	while (wspace_check(line[*i]))
 		(*i)++;
 }
 

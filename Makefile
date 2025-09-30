@@ -18,7 +18,7 @@ SRC = \
 		$(SRC_DIR)/parsing3.c \
 
 OBJ = $(SRC:.c=.o)
-OBJ_PATH = $(OBJ:$(SRC_DIR)/.%o=$(OBJ_DIR)/%.o)
+OBJ_PATH = $(SRC:$(SRC_DIR)/.%o=$(OBJ_DIR)/%.o)
 
 NAME = cub3D
 

@@ -6,11 +6,12 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/30 16:26:25 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/01 18:00:05 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
+//simple check, file, line, id, all filled
 
 //check no of param, filename and process_check lines
 int	parsing(t_parse *parse, int ac, char **av)
@@ -29,26 +30,29 @@ int	parsing(t_parse *parse, int ac, char **av)
 	return (0);
 }
 
-//parsin file content
+//parsing file content
 //p: get_next_line .cub. process each line
 int	parse_file(t_parse *parse, char **av)
 {
 	int		fd;
 	char	*line;
 
-	fd = open(av[1]);
-	ft_memset(parse, 0, sizeof(parse));
-	line = get_next_line(fd);
-	if (!line)
-		return (1);
-	while(line)
+	fd = open(av[1], O_RDONLY);
+	ft_memset(parse, 0, sizeof(t_parse));
+	while(1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			return (1);
 		if (check_line(parse, line) == 1)
+		{
+			//printf("'%s'\n", line); //debug
+			//printf("check_id return 1\n");//debug
 			return (1);
+		}
 	}
+	print_param(parse);
+	return (0);
 }
 
 //check all identifier before map in line
@@ -58,28 +62,72 @@ int	check_line(t_parse *parse, char *line)
 	int	i;
 
 	i = 0;
-	while(line[i])
+	while(line[i] && check_ids_reg(parse))
 	{
 		skip_whitespace(line, &i);
-		if (check_identifier(parse, line, &i) == 1)
+		//case for only emptyline
+		if (line[i] == '\0')
+			break ;
+		if (check_id(parse, line, &i) == 1)
 			return (1);
 	}
-	return (1);
+	while(line[i] && check_ids_reg(parse) == 0)
+	{
+		if (proc_map(parse, line, &i) == 1)
+			return (1);
+	}
+	// if (line[i])
+	// 	printf("%c", line[i]);
+	// else
+	// 	printf("NULL\n");
+	return (0);
 }
 
-void	skip_whitespace(char *line, int *i)
+//check is everything filled or not
+//if not filled = 1
+int	check_ids_reg(t_parse *p)
 {
-	while (wspace_check(line[*i]))
-		(*i)++;
-}
-
-int	wspace_check(char c)
-{
-	if (c == ' ')
+	int	i;
+	
+	i = 0;
+	while(p->tex_flag[i])
+	{
+		if (p->tex_flag[i] == 0)
+			return(1);
+		i++;
+	}
+	if (p->floor_flag == 0)
 		return (1);
-	if (c == '\t')
-		return (2);
-	if (c == '\n')
-		return (3);
+	if (p->ceiling_flag == 0)
+		return (1);
+	return (0);
+}
+
+//detect identifier
+int	check_id(t_parse *parse, char *line, int *i)
+{
+	if (line[*i] == '\0')
+	{
+		//printf("check_id return 1 here\n");//debug
+		return (1);
+	}
+	else if (ft_strncmp("NO ", line + *i, 3) == 0)
+		parse_texture(parse, 0, line, i);
+	else if (ft_strncmp("SO ", line + *i, 3) == 0)
+		parse_texture(parse, 1, line, i);
+	else if (ft_strncmp("WE ", line + *i, 3) == 0)
+		parse_texture(parse, 2, line, i);
+	else if (ft_strncmp("EA ", line + *i, 3) == 0)
+		parse_texture(parse, 3, line, i);
+	else if (ft_strncmp("F ", line + *i, 2) == 0)
+		parse_colour(parse, 'f', line, i);
+	else if (ft_strncmp("C ", line + *i, 2) == 0)
+		parse_colour(parse, 'c', line, i);
+	else
+	{
+		//printf("check id line check: %c\n",line[*i]);//debug
+		//printf("check_id return 1 here2\n");//debug
+		return (1);
+	}
 	return (0);
 }

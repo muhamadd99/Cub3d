@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/09/30 17:04:07 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/01 18:07:56 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include "./../ultralibft/include/libft.h"
 
 typedef	struct s_parse
@@ -26,7 +29,21 @@ typedef	struct s_parse
 	int		tex_flag[4];
 	int		floor_flag;
 	int		ceiling_flag;
+	t_player	*player;
 } t_parse;
+
+typedef struct s_player
+{
+	//where the player is on the map
+	double	pos_x;
+	double	pos_y;
+	//where player facing
+	double	dir_x;
+	double	dir_y;
+	//hard coded FOV value
+	double	plane_x;
+	double	plane_y;
+}	t_player;
 
 //int		ft_isdigit(char c);
 int		wspace_check(char c);
@@ -40,10 +57,16 @@ void	free_twop(char **str);
 int		ft_strdigit(char **str);
 void	skip_whitespace(char *line, int *i);
 void	store_colour(t_parse *p, char c, int hexa_col);
-int		check_identifier(t_parse *parse, char *line, int *i);
+int		check_id(t_parse *parse, char *line, int *i);
 void	parse_texture(t_parse *p, int id, char *line, int *i);
 void	parse_colour(t_parse *p, char c, char *line, int *i);
-void	skip_space(char *line, int *i);
 void	print_error(t_parse *parse, char *message);
+char	**remove_spaces(t_parse *p, char **str);
+void	skip_space_not(char *line, int *i, int space);
+
+//map handling
+int		proc_map(t_parse *p, char *line);
+int		check_map(t_parse *p, char *line);
+int		map_reg(t_parse *p, char c);
 
 #endif

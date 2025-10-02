@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/01 18:00:05 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:59:47 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,40 @@ int	parsing(t_parse *parse, int ac, char **av)
 
 //parsing file content
 //p: get_next_line .cub. process each line
-int	parse_file(t_parse *parse, char **av)
+int	parse_file(t_parse *p, char **av)
 {
 	int		fd;
+	int		line_no;
 	char	*line;
 
+	line_no = 0;
 	fd = open(av[1], O_RDONLY);
-	ft_memset(parse, 0, sizeof(t_parse));
+	ft_memset(p, 0, sizeof(t_parse));
 	while(1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			return (1);
-		if (check_line(parse, line) == 1)
-		{
-			//printf("'%s'\n", line); //debug
-			//printf("check_id return 1\n");//debug
+		if (check_line(p, line) == 1)
 			return (1);
-		}
+		if (proc_map(p, line, line_no) == 1)
+			return (1);
+		line_no++;
 	}
-	print_param(parse);
+	line_no = 0;
+	while (p->map_flag == 2 && line_no <= p->mapend_pos)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			return (1);
+		if (line_no >= p->map_pos)
+			if (store_map(p, line, line_no))
+				return (1);
+		line_no++;
+	}
+	if (check_nonspace(p, line) == 1)
+		return (1);
+	print_param(p);
 	return (0);
 }
 
@@ -60,6 +74,7 @@ int	parse_file(t_parse *parse, char **av)
 int	check_line(t_parse *parse, char *line)
 {
 	int	i;
+	int	map_pos;
 
 	i = 0;
 	while(line[i] && check_ids_reg(parse))
@@ -71,15 +86,16 @@ int	check_line(t_parse *parse, char *line)
 		if (check_id(parse, line, &i) == 1)
 			return (1);
 	}
-	while(line[i] && check_ids_reg(parse) == 0)
-	{
-		if (proc_map(parse, line, &i) == 1)
-			return (1);
-	}
-	// if (line[i])
-	// 	printf("%c", line[i]);
-	// else
-	// 	printf("NULL\n");
+	// i = 0;
+	// while(line[i] && check_ids_reg(parse) == 0)
+	// {
+	// 	if (find_map() == 1)
+	// 		map_pos = pos;
+	// 	else
+	// 		break ;
+	// 	if (proc_map(parse, line, &i) == 1)
+	// 		return (1);
+	// }
 	return (0);
 }
 
@@ -128,6 +144,20 @@ int	check_id(t_parse *parse, char *line, int *i)
 		//printf("check id line check: %c\n",line[*i]);//debug
 		//printf("check_id return 1 here2\n");//debug
 		return (1);
+	}
+	return (0);
+}
+
+int	check_nonspace(t_parse *p, char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!wspace_check(line[i]))
+			return (1);
+		i++;
 	}
 	return (0);
 }

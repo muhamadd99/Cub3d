@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/01 18:07:56 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:53:32 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include "./../ultralibft/include/libft.h"
-
-typedef	struct s_parse
-{
-	char	*texture[4];
-	int		floor_value;
-	int		ceiling_value;
-
-	int		tex_flag[4];
-	int		floor_flag;
-	int		ceiling_flag;
-	t_player	*player;
-} t_parse;
 
 typedef struct s_player
 {
@@ -45,10 +33,27 @@ typedef struct s_player
 	double	plane_y;
 }	t_player;
 
+typedef	struct s_parse
+{
+	char	*texture[4];
+	int		floor_value;
+	int		ceiling_value;
+	int		map_pos;
+	int		mapend_pos;
+	int		max_width;
+	char	**map;
+
+	int		tex_flag[4];
+	int		floor_flag;
+	int		ceiling_flag;
+	int		map_flag;
+	t_player	*player;
+} t_parse;
+
 //int		ft_isdigit(char c);
 int		wspace_check(char c);
 int		parsing(t_parse *parse, int ac, char **av);
-int		parse_file(t_parse *parse, char **av);
+int		parse_file(t_parse *p, char **av);
 int		check_line(t_parse *parse, char *line);
 int		colour_digit(t_parse *p, char *line, int *i);
 int		colour_digit2(t_parse *p, char **str);
@@ -65,8 +70,8 @@ char	**remove_spaces(t_parse *p, char **str);
 void	skip_space_not(char *line, int *i, int space);
 
 //map handling
-int		proc_map(t_parse *p, char *line);
-int		check_map(t_parse *p, char *line);
+int		proc_map(t_parse *p, char *line, int line_no);
+int		check_map(t_parse *p, char *line, int line_no);
 int		map_reg(t_parse *p, char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/01 15:46:19 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:34:38 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 void	parse_texture(t_parse *p, int id, char *line, int *i)
 {
 	int		start;
+	int		len;
 	char	*new_str;
 	
 	//printf("%d\n", p->tex_flag[0]);//debug
@@ -36,11 +37,14 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	start = *i;
 	while(wspace_check(line[*i]) == 0 && line[*i])
 		(*i)++;
-	if (line[*i] == '\n' && line[*i] == '\0')
+	if (start == *i)
 		print_error(p, "not enough param2");
-	new_str = ft_substr(line, start, *i - start);
+	len = *i - start;
+	new_str = ft_substr(line, start, len);
 	if (!new_str)
 		print_error(p, "memory allocation failed");
+	if (len < 5 || ft_strncmp(new_str + len - 4, ".xpm", 4))
+		print_error(p, "wrong file for texture");
 	p->texture[id] = new_str;
 	skip_space_not(line, i, 1);
 	//handle path 

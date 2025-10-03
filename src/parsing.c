@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/02 16:59:47 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:28:54 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,33 +38,70 @@ int	parse_file(t_parse *p, char **av)
 	int		line_no;
 	char	*line;
 
+	printf("1a\n"); //d
 	line_no = 0;
 	fd = open(av[1], O_RDONLY);
 	ft_memset(p, 0, sizeof(t_parse));
-	while(1)
+	while(check_ids_reg(p))
 	{
-		line = get_next_line(fd);
+		line = get_next_line_bonus(fd);
 		if (!line)
-			return (1);
+			break ;
+		printf("line: %d, line before: %s", line_no, line); //d
 		if (check_line(p, line) == 1)
+		{
+			printf("1b\n"); //d
 			return (1);
-		if (proc_map(p, line, line_no) == 1)
-			return (1);
+		}
+		free(line);
 		line_no++;
 	}
-	line_no = 0;
-	while (p->map_flag == 2 && line_no <= p->mapend_pos)
+	if (!line)
+		print_error(p, "not enough argument");
+	while(!check_ids_reg(p))
 	{
+		line = get_next_line_bonus(fd);
+		printf("line at i = 0: %s-", line); //d
+		if (!line)
+			break ;
+		if (proc_map(p, line, line_no))
+		{
+			print_error(p, "wrong map");
+			return (1);
+		}
+		line_no++;
+	}
+	printf("line_no: %d\n", line_no); //d
+	if (p->mapend_pos == 0)
+		p->mapend_pos = line_no - 1;
+	p->map_flag = 2;
+	printf("map: %d, map_end: %d\n", p->map_pos, p->mapend_pos);//d
+	close(fd);
+	fd = open(av[1], O_RDONLY);
+	line = get_next_line(fd);//debug
+	line_no = 0;
+	while (p->map_flag == 2)
+	{
+		printf("a\n");//d
 		line = get_next_line(fd);
 		if (!line)
-			return (1);
-		if (line_no >= p->map_pos)
+			break ;
+		if (line_no >= p->map_pos && line_no <= p->mapend_pos)
 			if (store_map(p, line, line_no))
+			{
+				printf("1h\n");//d
 				return (1);
+			}
 		line_no++;
 	}
-	if (check_nonspace(p, line) == 1)
+	close(fd);
+	printf("line_no2: %d\n", line_no); //d
+	if (check_nonspace(line) == 1)
+	{
+		printf("1g\n");//d
 		return (1);
+	}
+	printf("a\n");//d
 	print_param(p);
 	return (0);
 }
@@ -74,7 +111,6 @@ int	parse_file(t_parse *p, char **av)
 int	check_line(t_parse *parse, char *line)
 {
 	int	i;
-	int	map_pos;
 
 	i = 0;
 	while(line[i] && check_ids_reg(parse))
@@ -148,13 +184,16 @@ int	check_id(t_parse *parse, char *line, int *i)
 	return (0);
 }
 
-int	check_nonspace(t_parse *p, char *line)
+int	check_nonspace(char *line)
 {
 	int	i;
 
 	i = 0;
+	if (!line)
+		return (0);
 	while (line[i])
 	{
+		printf("char[%d]: %c\n", i, line[i]);//d
 		if (!wspace_check(line[i]))
 			return (1);
 		i++;

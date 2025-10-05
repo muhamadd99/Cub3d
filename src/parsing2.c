@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/03 17:34:38 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:19:34 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	int		len;
 	char	*new_str;
 	
-	//printf("%d\n", p->tex_flag[0]);//debug
 	if (p->tex_flag[id] == 0)
 		p->tex_flag[id] = 1;
 	else
@@ -60,18 +59,16 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 //p: split and check 3 nbr, skip space & 1 \n, check \n or not
 void	parse_colour(t_parse *p, char c, char *line, int *i)
 {
-	int hexa_col;
+	int	hexa_col;
 
 	colour_filled(p, c);
 	*i = *i + 2;
 	skip_space_not(line, i, 1);
-	//printf("before store colour: %c\n", line[*i]);//debug
 	if (ft_isdigit((unsigned char)line[*i]) == 0)
 		print_error(p, "wrong value for colour");
 	hexa_col = colour_digit(p, line, i);
 	store_colour(p, c, hexa_col);
-	//printf("hexa_col: %d\n", hexa_col);//debug
-	while(line[*i])
+	while (line[*i])
 		(*i)++;
 }
 
@@ -99,30 +96,22 @@ void	colour_filled(t_parse *p, char c)
 //
 int	colour_digit(t_parse *p, char *line, int *i)
 {
-	int		start;
 	char	**new_str;
 	int		hexa_col;
 	int		col_count;
 
-	start = *i;
-	while(wspace_check(line[*i]) == 0 && line[*i] == '\0')
+	while (wspace_check(line[*i]) == 0 && line[*i] == '\0')
 		(*i)++; //why need to whitespace check? the moment it come here already digit
 	new_str = ft_split(line + *i, ',');
 	if (!new_str)
 		print_error(p, "malloc");
 	new_str = remove_spaces(p, new_str);
-	//int k = 0;//debug
-	//while (new_str[k])//debug
-	//	printf("newstr: %s-\n", new_str[k++]);//debug
 	//already in array of char but consist of numbers
 	if (ft_strdigit(new_str) == 0)
-	{
-		//printf("strdigit return 0\n");//debug
 		return (0);
-	}
 	//check no of colour in array
 	col_count = 0;
-	while(new_str[col_count])
+	while (new_str[col_count])
 		col_count++;
 	if (col_count != 3)
 	{
@@ -142,7 +131,7 @@ char	**remove_spaces(t_parse *p, char **str)
 	char **new_str;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	if (i != 3)
 	{
@@ -153,7 +142,7 @@ char	**remove_spaces(t_parse *p, char **str)
 	if (!new_str)
 		return (NULL);
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		j = 0;
 		skip_space_not(str[i], &j, 1);
@@ -162,7 +151,7 @@ char	**remove_spaces(t_parse *p, char **str)
 		new_str[i] = ft_substr(str[i], start, j - start);
 		i++;
 	}
-	return(new_str);
+	return (new_str);
 }
 
 // start = *i;

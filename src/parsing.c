@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/03 16:28:54 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/05 18:22:28 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,24 @@ int	parse_file(t_parse *p, char **av)
 	int		line_no;
 	char	*line;
 
-	printf("1a\n"); //d
 	line_no = 0;
 	fd = open(av[1], O_RDONLY);
 	ft_memset(p, 0, sizeof(t_parse));
-	while(check_ids_reg(p))
+	while (check_ids_reg(p))
 	{
 		line = get_next_line_bonus(fd);
 		if (!line)
 			break ;
-		printf("line: %d, line before: %s", line_no, line); //d
 		if (check_line(p, line) == 1)
-		{
-			printf("1b\n"); //d
 			return (1);
-		}
 		free(line);
 		line_no++;
 	}
 	if (!line)
 		print_error(p, "not enough argument");
-	while(!check_ids_reg(p))
+	while (!check_ids_reg(p))
 	{
 		line = get_next_line_bonus(fd);
-		printf("line at i = 0: %s-", line); //d
 		if (!line)
 			break ;
 		if (proc_map(p, line, line_no))
@@ -71,37 +65,32 @@ int	parse_file(t_parse *p, char **av)
 		}
 		line_no++;
 	}
-	printf("line_no: %d\n", line_no); //d
 	if (p->mapend_pos == 0)
 		p->mapend_pos = line_no - 1;
 	p->map_flag = 2;
-	printf("map: %d, map_end: %d\n", p->map_pos, p->mapend_pos);//d
 	close(fd);
 	fd = open(av[1], O_RDONLY);
-	line = get_next_line(fd);//debug
 	line_no = 0;
 	while (p->map_flag == 2)
 	{
-		printf("a\n");//d
 		line = get_next_line(fd);
 		if (!line)
 			break ;
 		if (line_no >= p->map_pos && line_no <= p->mapend_pos)
 			if (store_map(p, line, line_no))
-			{
-				printf("1h\n");//d
 				return (1);
-			}
 		line_no++;
 	}
 	close(fd);
-	printf("line_no2: %d\n", line_no); //d
-	if (check_nonspace(line) == 1)
+	if (!p->player_flag)
+		print_error(p, "no player");
+	if (check_map_walls(p, p->player.pos_x, p->player.pos_y))
 	{
-		printf("1g\n");//d
+		print_error(p, "not closed map");
 		return (1);
 	}
-	printf("a\n");//d
+	if (check_nonspace(line) == 1)
+		return (1);
 	print_param(p);
 	return (0);
 }
@@ -113,7 +102,7 @@ int	check_line(t_parse *parse, char *line)
 	int	i;
 
 	i = 0;
-	while(line[i] && check_ids_reg(parse))
+	while (line[i] && check_ids_reg(parse))
 	{
 		skip_whitespace(line, &i);
 		//case for only emptyline
@@ -140,12 +129,12 @@ int	check_line(t_parse *parse, char *line)
 int	check_ids_reg(t_parse *p)
 {
 	int	i;
-	
+
 	i = 0;
-	while(p->tex_flag[i])
+	while (p->tex_flag[i])
 	{
 		if (p->tex_flag[i] == 0)
-			return(1);
+			return (1);
 		i++;
 	}
 	if (p->floor_flag == 0)
@@ -159,10 +148,7 @@ int	check_ids_reg(t_parse *p)
 int	check_id(t_parse *parse, char *line, int *i)
 {
 	if (line[*i] == '\0')
-	{
-		//printf("check_id return 1 here\n");//debug
 		return (1);
-	}
 	else if (ft_strncmp("NO ", line + *i, 3) == 0)
 		parse_texture(parse, 0, line, i);
 	else if (ft_strncmp("SO ", line + *i, 3) == 0)
@@ -176,11 +162,7 @@ int	check_id(t_parse *parse, char *line, int *i)
 	else if (ft_strncmp("C ", line + *i, 2) == 0)
 		parse_colour(parse, 'c', line, i);
 	else
-	{
-		//printf("check id line check: %c\n",line[*i]);//debug
-		//printf("check_id return 1 here2\n");//debug
 		return (1);
-	}
 	return (0);
 }
 
@@ -193,7 +175,6 @@ int	check_nonspace(char *line)
 		return (0);
 	while (line[i])
 	{
-		printf("char[%d]: %c\n", i, line[i]);//d
 		if (!wspace_check(line[i]))
 			return (1);
 		i++;

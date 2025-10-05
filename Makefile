@@ -16,7 +16,8 @@ SRC = \
 		$(SRC_DIR)/parsing.c \
 		$(SRC_DIR)/parsing2.c \
 		$(SRC_DIR)/parsing3.c \
-		$(SRC_DIR)/parsing4.c \
+		$(SRC_DIR)/parse_map.c \
+		$(SRC_DIR)/parse_map2.c \
 		$(SRC_DIR)/parse_helper.c \
 		$(SRC_DIR)/parse_helper2.c
 

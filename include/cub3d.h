@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/03 15:17:15 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:01:42 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,16 @@ typedef	struct s_parse
 	int		argend_pos;
 	int		map_pos;
 	int		mapend_pos;
+	int		max_height;
 	int		max_width;
 	char	**map;
+	char	**map_copy;
 
 	int		tex_flag[4];
 	int		floor_flag;
 	int		ceiling_flag;
 	int		map_flag;
+	int		player_flag;
 	t_player	player;
 	t_game		*game;
 } t_parse;
@@ -96,11 +99,13 @@ char	**remove_spaces(t_parse *p, char **str);
 void	skip_space_not(char *line, int *i, int space);
 
 //map handling
+int		allocate_map(t_parse *p, char ***map);
 int		proc_map(t_parse *p, char *line, int line_no);
 int		check_map(t_parse *p, char *line, int line_no);
-int		map_reg(t_parse *p, char c);
+int		check_map_walls(t_parse *p, int x, int y);
+int		map_reg(t_parse *p, char c, int i, int line_no);
 int		store_map(t_parse *p, char *line, int line_no);
-
+void	store_map_array(t_parse *p, char *line, int line_no);
 
 typedef struct s_img
 {

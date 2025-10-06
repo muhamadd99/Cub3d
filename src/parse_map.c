@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:47:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/05 22:01:00 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 10:35:01 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,20 +110,32 @@ int	map_reg(t_parse *p, char c, int i, int line_no)
 //p: store map in 2d array
 int	store_map(t_parse *p, char *line, int line_no)
 {
-	int	i;
-
 	if (allocate_map(p, &p->map))
 		return (1);
 	if (allocate_map(p, &p->map_copy))
 		return (1);
 	store_map_array(p, line, line_no);
+	copy_map_array(p, p->map_copy);
+	return (0);
+}
+
+// i = 0;
+// while (i < p->max_height)
+// {
+// 	ft_memcpy(p->map_copy[i], p->map[i], p->max_width);
+// 	i++;
+// }
+
+void	copy_map_array(t_parse *p, char **map)
+{
+	int	i;
+
 	i = 0;
 	while (i < p->max_height)
 	{
-		ft_memcpy(p->map_copy[i], p->map[i], p->max_width);
+		ft_memcpy(map[i], p->map[i], p->max_width);
 		i++;
 	}
-	return (0);
 }
 
 int	allocate_map(t_parse *p, char ***map)

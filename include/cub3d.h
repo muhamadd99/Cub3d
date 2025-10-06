@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 16:47:04 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:38:29 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int		parse_to_exec(t_parse *parse, t_game *game);
 void	print_error(t_parse *parse, char *message);
 void	print_param(t_parse *p);
 void	print_param2(t_game	*g);
+void	print_param_map(int height, int width, char **map);
 void	skip_space_not(char *line, int *i, int space);
 
 //texture & colour handling
@@ -166,7 +167,7 @@ void	store_colour(t_parse *p, char c, int hexa_col);
 int		allocate_map(t_parse *p, char ***map);
 int		proc_map(t_parse *p, char *line, int line_no);
 int		check_map(t_parse *p, char *line, int line_no);
-int		check_map_walls(t_parse *p, int x, int y);
+int		flood_fill(t_parse *p, int x, int y);
 void	copy_map_array(t_parse *p, char **map);
 int		map_reg(t_parse *p, char c, int i, int line_no);
 int		store_map(t_parse *p, char *line, int line_no);

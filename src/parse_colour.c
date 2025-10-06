@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing3.c                                         :+:      :+:    :+:   */
+/*   parse_colour.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/05 18:20:43 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:18:40 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
-static int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
+//static int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 //parse colour extra file
 
 int	colour_digit2(t_parse *p, char **str)
 {
-	int	hexa_colour;
-	int	i;
+	int				hexa_colour;
+	int				i;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 
 	i = 0;
 	while (i < 3)
@@ -27,10 +30,18 @@ int	colour_digit2(t_parse *p, char **str)
 			print_error(p, "rgb number too big");
 		i++;
 	}
-	hexa_colour = rgb_to_int((unsigned char)ft_atoi(str[0]),
-			(unsigned char)ft_atoi(str[1]), (unsigned char)ft_atoi(str[2]));
+	r = (unsigned char)ft_atoi(str[0]);
+	g = (unsigned char)ft_atoi(str[1]);
+	b = (unsigned char)ft_atoi(str[2]);
+	hexa_colour = (r << 16) | (g << 8) | b;
 	return (hexa_colour);
 }
+// hexa_colour = rgb_to_int((unsigned char)ft_atoi(str[0]),
+// 		(unsigned char)ft_atoi(str[1]), (unsigned char)ft_atoi(str[2]));
+// int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b)
+// {
+// 	return ((r << 16) | (g << 8) | b);
+// }
 
 void	store_colour(t_parse *p, char c, int hexa_col)
 {
@@ -38,11 +49,6 @@ void	store_colour(t_parse *p, char c, int hexa_col)
 		p->floor_value = hexa_col;
 	else
 		p->ceiling_value = hexa_col;
-}
-
-int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b)
-{
-	return ((r << 16) | (g << 8) | b);
 }
 
 int	ft_strdigit(char **str)

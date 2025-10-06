@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing2.c                                         :+:      :+:    :+:   */
+/*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/05 18:19:34 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:28:11 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	int		start;
 	int		len;
 	char	*new_str;
-	
+
 	if (p->tex_flag[id] == 0)
 		p->tex_flag[id] = 1;
 	else
@@ -34,7 +34,7 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 		print_error(p, "not enough param1");
 	//substr identifier
 	start = *i;
-	while(wspace_check(line[*i]) == 0 && line[*i])
+	while (wspace_check(line[*i]) == 0 && line[*i])
 		(*i)++;
 	if (start == *i)
 		print_error(p, "not enough param2");
@@ -86,7 +86,7 @@ void	colour_filled(t_parse *p, char c)
 		if (p->ceiling_flag == 0)
 			p->ceiling_flag = 1;
 		else
-			print_error(p, "2 ceiling colour detected"); 
+			print_error(p, "2 ceiling colour detected");
 	}
 }
 
@@ -125,10 +125,10 @@ int	colour_digit(t_parse *p, char *line, int *i)
 //check number of splitted
 char	**remove_spaces(t_parse *p, char **str)
 {
-	int	i;
-	int	j;
-	int	start;
-	char **new_str;
+	int		i;
+	int		j;
+	int		start;
+	char	**new_str;
 
 	i = 0;
 	while (str[i])

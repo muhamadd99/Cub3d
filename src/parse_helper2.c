@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 15:30:31 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:42:28 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	print_param(t_parse *p)
 {
-	int	i;
-	int	j;
-
 	printf("texture NO: %s\n", p->texture[0]);
 	printf("texture SO: %s\n", p->texture[1]);
 	printf("texture WE: %s\n", p->texture[2]);
@@ -34,38 +31,13 @@ void	print_param(t_parse *p)
 	printf("player pos_x: %f\n", p->player.pos_x);
 	printf("player pos_y: %f\n", p->player.pos_y);
 	printf("map\n");
-	j = 0;
-	while (j < (p->mapend_pos - p->map_pos + 1))
-	{
-		i = 0;
-		while (i < p->max_width)
-		{
-			printf("%c", p->map[j][i]);
-			i++;
-		}
-		printf("\n");
-		j++;
-	}
+	print_param_map(p->max_height, p->max_width, p->map);
 	printf("map_copy\n");
-	j = 0;
-	while (j < (p->mapend_pos - p->map_pos + 1))
-	{
-		i = 0;
-		while (i < p->max_width)
-		{
-			printf("%c", p->map_copy[j][i]);
-			i++;
-		}
-		printf("\n");
-		j++;
-	}
+	print_param_map(p->max_height, p->max_width, p->map_copy);
 }
 
 void	print_param2(t_game	*g)
 {
-	int	i;
-	int	j;
-
 	printf("execution struct check\n");
 	printf("texture NO: %s\n", g->north_texture);
 	printf("texture SO: %s\n", g->south_texture);
@@ -82,16 +54,40 @@ void	print_param2(t_game	*g)
 	printf("player pos_x: %f\n", g->player.pos_x);
 	printf("player pos_y: %f\n", g->player.pos_y);
 	printf("map\n");
+	print_param_map(g->map_height, g->map_width, g->map);
+}
+
+void	print_param_map(int height, int width, char **map)
+{
+	int	i;
+	int	j;
+
 	j = 0;
-	while (j < (g->map_height))
+	while (j < height)
 	{
 		i = 0;
-		while (i < g->map_width)
+		while (i < width)
 		{
-			printf("%c", g->map[j][i]);
+			printf("%c", map[j][i]);
 			i++;
 		}
 		printf("\n");
 		j++;
 	}
+}
+
+int	check_nonspace(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (!line)
+		return (0);
+	while (line[i])
+	{
+		if (!wspace_check(line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }

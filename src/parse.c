@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 15:00:46 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:43:14 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	parsing(t_parse *parse, int ac, char **av)
 		return (1);
 	if (ft_strcmp(".cub", av[1] + len - 4))
 		return (1);
-	//check line
-	parse_file(parse, av);
+	if (parse_file(parse, av) == 1)
+		return (1);
 	return (0);
 }
 
@@ -84,18 +84,19 @@ int	parse_file(t_parse *p, char **av)
 	close(fd);
 	if (!p->player_flag)
 		print_error(p, "no player");
-	if (check_map_walls(p, p->player.pos_x, p->player.pos_y))
+	if (flood_fill(p, p->player.pos_x, p->player.pos_y))
 	{
 		print_error(p, "not closed map");
 		return (1);
 	}
 	if (check_nonspace(line) == 1)
 		return (1);
-	print_param(p); //importantdebug
+	//print_param(p); //importantdebug
 	return (0);
 }
 
 //check all identifier before map in line
+//null term check for case of only emptyline
 //p: skip whitespace
 int	check_line(t_parse *parse, char *line)
 {
@@ -105,22 +106,11 @@ int	check_line(t_parse *parse, char *line)
 	while (line[i] && check_ids_reg(parse))
 	{
 		skip_whitespace(line, &i);
-		//case for only emptyline
 		if (line[i] == '\0')
 			break ;
 		if (check_id(parse, line, &i) == 1)
 			return (1);
 	}
-	// i = 0;
-	// while(line[i] && check_ids_reg(parse) == 0)
-	// {
-	// 	if (find_map() == 1)
-	// 		map_pos = pos;
-	// 	else
-	// 		break ;
-	// 	if (proc_map(parse, line, &i) == 1)
-	// 		return (1);
-	// }
 	return (0);
 }
 
@@ -163,21 +153,5 @@ int	check_id(t_parse *parse, char *line, int *i)
 		parse_colour(parse, 'c', line, i);
 	else
 		return (1);
-	return (0);
-}
-
-int	check_nonspace(char *line)
-{
-	int	i;
-
-	i = 0;
-	if (!line)
-		return (0);
-	while (line[i])
-	{
-		if (!wspace_check(line[i]))
-			return (1);
-		i++;
-	}
 	return (0);
 }

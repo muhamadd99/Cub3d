@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:55:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/01 15:21:17 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:29:56 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_twop(char **str)
 	i = 0;
 	if (!str)
 		return ;
-	while(str[i])
+	while (str[i])
 	{
 		free(str[i]);
 		i++;

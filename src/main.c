@@ -6,13 +6,13 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 17:09:35 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:42:12 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_parse	parse;
 	t_game	game;
@@ -35,9 +35,7 @@ int main(int ac, char **av)
 	mlx_hook(game.win, 2, 1L<<0, key_press, &game);
 	mlx_hook(game.win, 3, 1L<<1, key_release, &game);
 	mlx_loop_hook(game.mlx, render_frame, &game);
-	
-	//print_param2(&game); //importantdebug
-	
+	print_param2(&game); //importantdebug
 	mlx_loop(game.mlx);
 }
 
@@ -86,7 +84,7 @@ void	load_texture(t_game *game, t_texture *tex, char *path)
 	if (!tex->img.img)
 	{
 		printf("Error: failed to load texture %s\n", path);
-		exit(1);                                               //////////check exit fcuntion
+		exit (1);                                               //////////check exit fcuntion
 	}
 	tex->img.addr = mlx_get_data_addr(tex->img.img,
 			&tex->img.bits_per_pixel,

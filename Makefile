@@ -16,18 +16,21 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 
 SRC = \
 		$(SRC_DIR)/main.c \
+		$(SRC_DIR)/exec.c \
+		$(SRC_DIR)/dda.c \
+		$(SRC_DIR)/dda2.c \
+		$(SRC_DIR)/movement.c \
+		$(SRC_DIR)/movement2.c \
+		$(SRC_DIR)/render.c \
 		$(SRC_DIR)/parse.c \
+		$(SRC_DIR)/parse2.c \
 		$(SRC_DIR)/parse_texture.c \
 		$(SRC_DIR)/parse_colour.c \
 		$(SRC_DIR)/parse_map.c \
 		$(SRC_DIR)/parse_map2.c \
+		$(SRC_DIR)/parse_map3.c \
 		$(SRC_DIR)/parse_helper.c \
-		$(SRC_DIR)/parse_helper2.c \
-		$(SRC_DIR)/render.c \
-		$(SRC_DIR)/dda.c \
-		$(SRC_DIR)/dda2.c \
-		$(SRC_DIR)/movement.c \
-		$(SRC_DIR)/movement2.c
+		$(SRC_DIR)/parse_helper2.c
 
 OBJ = $(SRC:.c=.o)
 OBJ_PATH = $(SRC:$(SRC_DIR)/.%c=$(OBJ_DIR)/%.o)

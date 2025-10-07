@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 14:02:52 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:42:34 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,10 @@ void	print_param_map(int height, int width, char **map);
 void	skip_space_not(char *line, int *i, int space);
 
 //texture & colour handling
-int		check_id(t_parse *parse, char *line, int *i);
+void	check_line_idmap(t_parse *p, char **av);
+int		check_id_string(t_parse *parse, char *line, int *i);
+void	check_ids(t_parse *p, char *line, int fd, int *line_no);
+void	check_maps(t_parse *p, char *line, int fd, int *line_no);
 void	colour_filled(t_parse *p, char c);
 int		colour_digit(t_parse *p, char *line, int *i);
 int		colour_digit2(t_parse *p, char **str);
@@ -164,6 +167,9 @@ char	*texture_path(t_parse *p, char *line, int *i);
 void	parse_colour(t_parse *p, char c, char *line, int *i);
 char	**remove_spaces(t_parse *p, char **str);
 void	store_colour(t_parse *p, char c, int hexa_col);
+int		store_map(t_parse *p, char **av);
+char	**substr_colour(char **str);
+void	postcheck_map(t_parse *p);
 
 //map handling
 int		allocate_map(t_parse *p, char ***map);
@@ -173,7 +179,8 @@ int		flood_fill(t_parse *p, int x, int y);
 void	copy_map_array(t_parse *p, char **map);
 int		map_nondigit_case(t_parse *p, char *line, int line_no, int i);
 int		map_reg(t_parse *p, char c, int i, int line_no);
-int		store_map(t_parse *p, char *line, int line_no);
+int		store_map(t_parse *p, char **av);
+int		store_map_line(t_parse *p, char *line, int line_no);
 void	store_map_array(t_parse *p, char *line, int line_no);
 
 //muz

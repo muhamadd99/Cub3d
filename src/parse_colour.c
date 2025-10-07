@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 10:29:18 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:31:36 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,87 @@
 
 //static int	rgb_to_int(unsigned char r, unsigned char g, unsigned char b);
 //parse colour extra file
+
+//check number of splitted
+//substr to remove infront and at the back
+char	**remove_spaces(t_parse *p, char **str)
+{
+	int		i;
+	char	**new_str;
+
+	i = 0;
+	while (str[i])
+		i++;
+	if (i != 3)
+	{
+		free_twop(str);
+		print_error(p, "not enough colour value");
+	}
+	new_str = substr_colour(str);
+	return (new_str);
+}
+// start = *i;
+// while(wspace_check(line[*i]) == 0 && line[*i] == '\0')
+// 	(*i)++;
+//
+// rgb = ft_split(line, ',');
+// if (!rgb)
+// 	print_error(p, "malloc");
+// colour_count = 0;
+// while(rgb[colour_count])
+// {
+// 	rgb = ft_atoi(new_str);
+// 	colour_count++;
+// }
+// if (colour_count != 3)
+// 	print_error(p, "not enough colour value");
+//
+// int	ft_isdigit(char c)
+// {
+// 	if (c >= '0' && c <= '9')
+// 		return (1);
+// 	return (0);
+// }
+//
+// new_str = malloc(sizeof(char *) * 4);
+// if (!new_str)
+// 	return (NULL);
+// i = 0;
+// while (str[i])
+// {
+// 	j = 0;
+// 	skip_space_not(str[i], &j, 1);
+// 	start = j;
+// 	skip_space_not(str[i], &j, 0);
+// 	new_str[i] = ft_substr(str[i], start, j - start);
+// 	i++;
+// }
+// new_str[3] = NULL;
+
+char	**substr_colour(char **str)
+{
+	char	**new_str;
+	int		i;
+	int		j;
+	int		start;
+
+	new_str = malloc(sizeof(char *) * 4);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		skip_space_not(str[i], &j, 1);
+		start = j;
+		skip_space_not(str[i], &j, 0);
+		new_str[i] = ft_substr(str[i], start, j - start);
+		i++;
+	}
+	new_str[3] = NULL;
+	free_twop(str);
+	return (new_str);
+}
 
 int	colour_digit2(t_parse *p, char **str)
 {
@@ -57,7 +138,7 @@ int	ft_strdigit(char **str)
 	int	j;
 
 	j = 0;
-	while (j < 3) //changed from null terminator to 3 because colour only has 3 array
+	while (j < 3)
 	{
 		i = 0;
 		while (str[j][i])

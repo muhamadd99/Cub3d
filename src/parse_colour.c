@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:18:40 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 10:29:18 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_strdigit(char **str)
 	int	j;
 
 	j = 0;
-	while (str[j])
+	while (j < 3) //changed from null terminator to 3 because colour only has 3 array
 	{
 		i = 0;
 		while (str[j][i])

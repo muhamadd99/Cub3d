@@ -32,7 +32,7 @@ SRC = \
 OBJ = $(SRC:.c=.o)
 OBJ_PATH = $(SRC:$(SRC_DIR)/.%c=$(OBJ_DIR)/%.o)
 
-NAME = cub3D
+NAME = Cub3D
 
 all: $(NAME)
 

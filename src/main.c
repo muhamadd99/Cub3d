@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:42:12 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:18:49 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,9 @@ int	main(int ac, char **av)
 		return (1);
 	if (parse_to_exec(&parse, &game) == 1)
 		return (1);
-	//muz
-	game.mlx = mlx_init();
-	if (!game.mlx)
-		print_error(&parse, "mlx_init");
-	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	if (!game.win)
-		print_error(&parse, "mlx_new_window");
+	init_mlx(&parse, &game);
 	init_image(&game);
 	init_textures(&game);
-	// Hooks
 	mlx_hook(game.win, 17, 0, close_window, &game);
 	mlx_hook(game.win, 2, 1L<<0, key_press, &game);
 	mlx_hook(game.win, 3, 1L<<1, key_release, &game);
@@ -39,6 +32,7 @@ int	main(int ac, char **av)
 	mlx_loop(game.mlx);
 }
 
+//transfer and free value
 int	parse_to_exec(t_parse *p, t_game *g)
 {
 	ft_memset(g, 0, sizeof(t_game));
@@ -57,10 +51,25 @@ int	parse_to_exec(t_parse *p, t_game *g)
 	g->map[(int)g->player.pos_y][(int)g->player.pos_x] = '0';
 	g->player.pos_x += 0.5;
 	g->player.pos_y += 0.5;
+	free_map(p, p->map);
+	free_map(p, p->map_copy);
+	free(p->texture[0]);
+	free(p->texture[1]);
+	free(p->texture[2]);
+	free(p->texture[3]);
 	return (0);
 }
 
-//muz
+void	init_mlx(t_parse *parse, t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		print_error(parse, "mlx_init");
+	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	if (!game->win)
+		print_error(parse, "mlx_new_window");
+}
+
 void	init_image(t_game *game)
 {
 	game->img.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -76,14 +85,19 @@ void	init_image(t_game *game)
 
 }
 
-//muz
 void	load_texture(t_game *game, t_texture *tex, char *path)
 {
 	tex->img.img = mlx_xpm_file_to_image(game->mlx, path,
 			&tex->img.width, &tex->img.height);
 	if (!tex->img.img)
 	{
-		printf("Error: failed to load texture %s\n", path);
+		//printf("Error: failed to load texture %s\n", path);
+		print_error(NULL, "Fail to load texture");
+		free_twop(game->map);
+		free(game->north_texture);
+		free(game->south_texture);
+		free(game->east_texture);
+		free(game->west_texture);
 		exit (1);                                               //////////check exit fcuntion
 	}
 	tex->img.addr = mlx_get_data_addr(tex->img.img,
@@ -100,7 +114,6 @@ void	init_textures(t_game *game)
 	load_texture(game, &game->textures[3], game->east_texture);
 }
 
-//muz
 int	close_window(t_game *game)
 {
 	if (game->win)

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:43:14 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:06:00 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,20 @@ int	parse_file(t_parse *p, char **av)
 	line_no = 0;
 	fd = open(av[1], O_RDONLY);
 	ft_memset(p, 0, sizeof(t_parse));
+	//check line by line until all id finish
 	while (check_ids_reg(p))
 	{
 		line = get_next_line_bonus(fd);
 		if (!line)
 			break ;
 		if (check_line(p, line) == 1)
-			return (1);
+			print_error(p, "Identifier problem");
 		free(line);
 		line_no++;
 	}
 	if (!line)
 		print_error(p, "not enough argument");
+	//check line by line for map
 	while (!check_ids_reg(p))
 	{
 		line = get_next_line_bonus(fd);
@@ -63,12 +65,14 @@ int	parse_file(t_parse *p, char **av)
 			print_error(p, "wrong map");
 			return (1);
 		}
+		free(line);
 		line_no++;
 	}
 	if (p->mapend_pos == 0)
 		p->mapend_pos = line_no - 1;
 	p->map_flag = 2;
 	close(fd);
+	//store map
 	fd = open(av[1], O_RDONLY);
 	line_no = 0;
 	while (p->map_flag == 2)
@@ -79,9 +83,11 @@ int	parse_file(t_parse *p, char **av)
 		if (line_no >= p->map_pos && line_no <= p->mapend_pos)
 			if (store_map(p, line, line_no))
 				return (1);
+		free(line);
 		line_no++;
 	}
 	close(fd);
+	//after storing all, check there is player or not. check flood fill.
 	if (!p->player_flag)
 		print_error(p, "no player");
 	if (flood_fill(p, p->player.pos_x, p->player.pos_y))
@@ -121,7 +127,7 @@ int	check_ids_reg(t_parse *p)
 	int	i;
 
 	i = 0;
-	while (p->tex_flag[i])
+	while (i < 4)
 	{
 		if (p->tex_flag[i] == 0)
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:55:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:29:56 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:44:12 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,19 @@ void	free_twop(char **str)
 	free(str);
 }
 
-void	print_error(t_parse *parse, char *message)
+void	free_map(t_parse *p, char **str)
 {
-	(void)parse;
-	printf("Error\n");
-	printf("%s\n", message);
-	exit(1);
+	int	i;
+
+	i = 0;
+	if (!str)
+		return ;
+	while (i < p->max_height)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
 
 void	skip_space_not(char *line, int *i, int space)

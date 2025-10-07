@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:42:28 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:53:30 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,12 @@ int	check_nonspace(char *line)
 		i++;
 	}
 	return (0);
+}
+
+void	print_error(t_parse *parse, char *message)
+{
+	(void)parse;
+	printf("Error\n");
+	printf("%s\n", message);
+	exit(1);
 }

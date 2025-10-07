@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:47:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 10:35:01 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:02:59 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,8 @@ int	check_map(t_parse *p, char *line, int line_no)
 			break ;
 		if (line[i] == '0' || line[i] == '1')
 			digit_flag = 1;
-		if (line[i] != '0' && line[i] != '1'
-			&& wspace_check(line[i]) != 1)
-		{
-			if (!p->player_flag)
-			{
-				if (map_reg(p, line[i], i, line_no) == 0)
-					p->player_flag = 1;
-				else
-					return (1);
-			}
-			else
-				return (1);
-		}
+		if (map_nondigit_case(p, line, line_no, i))
+			return (1);
 		i++;
 		if (i > p->max_width)
 			p->max_width = i;
@@ -79,6 +68,28 @@ int	check_map(t_parse *p, char *line, int line_no)
 	if (!digit_flag)
 		if (p->mapend_pos == 0)
 			p->mapend_pos = line_no;
+	return (0);
+}
+
+//handle non digit char
+//p: check non-digit & non-space char
+//p: register as player pos if correct char
+//p: if wrong char, return 1
+int	map_nondigit_case(t_parse *p, char *line, int line_no, int i)
+{
+	if (line[i] != '0' && line[i] != '1'
+		&& wspace_check(line[i]) != 1)
+	{
+		if (!p->player_flag)
+		{
+			if (map_reg(p, line[i], i, line_no) == 0)
+				p->player_flag = 1;
+			else
+				return (1);
+		}
+		else
+			return (1);
+	}
 	return (0);
 }
 
@@ -105,81 +116,4 @@ int	map_reg(t_parse *p, char c, int i, int line_no)
 	pl->pos_x = i;
 	pl->pos_y = line_no - p->map_pos;
 	return (0);
-}
-
-//p: store map in 2d array
-int	store_map(t_parse *p, char *line, int line_no)
-{
-	if (allocate_map(p, &p->map))
-		return (1);
-	if (allocate_map(p, &p->map_copy))
-		return (1);
-	store_map_array(p, line, line_no);
-	copy_map_array(p, p->map_copy);
-	return (0);
-}
-
-// i = 0;
-// while (i < p->max_height)
-// {
-// 	ft_memcpy(p->map_copy[i], p->map[i], p->max_width);
-// 	i++;
-// }
-
-void	copy_map_array(t_parse *p, char **map)
-{
-	int	i;
-
-	i = 0;
-	while (i < p->max_height)
-	{
-		ft_memcpy(map[i], p->map[i], p->max_width);
-		i++;
-	}
-}
-
-int	allocate_map(t_parse *p, char ***map)
-{
-	int		i;
-
-	p->max_height = p->mapend_pos - p->map_pos + 1;
-	i = 0;
-	if (*map == NULL)
-	{
-		*map = malloc(sizeof(char *) * (p->max_height));
-		if (!*map)
-			return (1);
-		while (i < p->max_height)
-		{
-			(*map)[i] = malloc(sizeof(char) * p->max_width);
-			if (!(*map)[i])
-				return (1);
-			i++;
-		}
-	}
-	return (0);
-}
-
-void	store_map_array(t_parse *p, char *line, int line_no)
-{
-	int	i;
-	int	height;
-	int	len;
-
-	height = line_no - p->map_pos;
-	len = ft_strlen(line);
-	i = 0;
-	while (i < p->max_width)
-	{
-		if (i < len)
-		{
-			if (line[i] == ' ' || line[i] == '\n')
-				p->map[height][i] = '0';
-			else
-				p->map[height][i] = line[i];
-		}
-		else
-			p->map[height][i] = '0';
-		i++;
-	}
 }

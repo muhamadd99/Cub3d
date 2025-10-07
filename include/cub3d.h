@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:38:29 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:02:52 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int		parse_file(t_parse *p, char **av);
 int		check_ids_reg(t_parse *p);
 int		check_nonspace(char *line);
 int		check_line(t_parse *parse, char *line);
+void	free_map(t_parse *p, char **str);
 void	free_twop(char **str);
 void	skip_whitespace(char *line, int *i);
 int		parse_to_exec(t_parse *parse, t_game *game);
@@ -159,6 +160,7 @@ int		colour_digit(t_parse *p, char *line, int *i);
 int		colour_digit2(t_parse *p, char **str);
 int		ft_strdigit(char **str);
 void	parse_texture(t_parse *p, int id, char *line, int *i);
+char	*texture_path(t_parse *p, char *line, int *i);
 void	parse_colour(t_parse *p, char c, char *line, int *i);
 char	**remove_spaces(t_parse *p, char **str);
 void	store_colour(t_parse *p, char c, int hexa_col);
@@ -169,6 +171,7 @@ int		proc_map(t_parse *p, char *line, int line_no);
 int		check_map(t_parse *p, char *line, int line_no);
 int		flood_fill(t_parse *p, int x, int y);
 void	copy_map_array(t_parse *p, char **map);
+int		map_nondigit_case(t_parse *p, char *line, int line_no, int i);
 int		map_reg(t_parse *p, char c, int i, int line_no);
 int		store_map(t_parse *p, char *line, int line_no);
 void	store_map_array(t_parse *p, char *line, int line_no);
@@ -176,6 +179,7 @@ void	store_map_array(t_parse *p, char *line, int line_no);
 //muz
 void	init_image(t_game *game);
 void	init_textures(t_game *game);
+void	init_mlx(t_parse *parse, t_game *game);
 void	load_texture(t_game *game, t_texture *tex, char *path);
 int		close_window(t_game *game);
 /*render.c*/

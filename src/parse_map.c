@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_id.c                                         :+:      :+:    :+:   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:39:18 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 16:39:54 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:16:59 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	store_map(t_parse *p, char **av)
 		free(line);
 		line_no++;
 	}
-	if (check_nonspace(line) == 1)
-		return (1);
+	// if (check_nonspace(line) == 1)
+	// 	return (1);
 	close(fd);
 	return (0);
 }

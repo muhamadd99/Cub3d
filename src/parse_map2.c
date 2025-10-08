@@ -6,12 +6,11 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:47:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 16:44:19 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/08 14:15:42 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
-#include <stdio.h>
 
 //check meet map or not
 //if havent have whitespace skip

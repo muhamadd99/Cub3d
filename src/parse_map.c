@@ -6,21 +6,21 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:39:18 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/08 14:16:59 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/09 23:28:14 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
-void	check_maps(t_parse *p, char *line, int fd, int *line_no)
+void	check_maps(t_parse *p, char *line, int *line_no)
 {
 	while (!check_ids_reg(p))
 	{
-		line = get_next_line_bonus(fd);
+		line = get_next_line_bonus(p->fd);
 		if (!line)
 			break ;
 		if (proc_map(p, line, *line_no))
-			print_error(p, "wrong map");
+			print_error(p, "wrong map", NULL);
 		free(line);
 		(*line_no)++;
 	}
@@ -31,33 +31,32 @@ void	check_maps(t_parse *p, char *line, int fd, int *line_no)
 
 int	store_map(t_parse *p, char **av)
 {
-	int		fd;
 	int		line_no;
 	char	*line;
 
-	fd = open(av[1], O_RDONLY);
+	p->fd = open(av[1], O_RDONLY);
 	line_no = 0;
 	while (p->map_flag == 2)
 	{
-		line = get_next_line(fd);
+		line = get_next_line_bonus(p->fd);//change to normal gnl
 		if (!line)
 			break ;
 		if (line_no >= p->map_pos && line_no <= p->mapend_pos)
 			if (store_map_line(p, line, line_no))
 				return (1);
+		if (line_no > p->mapend_pos && check_nonspace(line) == 1)
+			print_error(p, "invalid post-map", line);
 		free(line);
 		line_no++;
 	}
-	// if (check_nonspace(line) == 1)
-	// 	return (1);
-	close(fd);
+	close(p->fd);
 	return (0);
 }
 
 void	postcheck_map(t_parse *p)
 {
 	if (!p->player_flag)
-		print_error(p, "no player");
+		print_error(p, "no player", NULL);
 	if (flood_fill(p, p->player.pos_x, p->player.pos_y))
-		print_error(p, "not closed map");
+		print_error(p, "not closed map", NULL);
 }

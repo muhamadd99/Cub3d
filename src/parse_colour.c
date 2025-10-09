@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 14:31:36 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 00:05:56 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**remove_spaces(t_parse *p, char **str)
 	if (i != 3)
 	{
 		free_twop(str);
-		print_error(p, "not enough colour value");
+		print_error(p, "not enough colour value", NULL);
 	}
 	new_str = substr_colour(str);
 	return (new_str);
@@ -107,13 +107,16 @@ int	colour_digit2(t_parse *p, char **str)
 	i = 0;
 	while (i < 3)
 	{
-		if (ft_atoi(str[i]) > 255)
-			print_error(p, "rgb number too big");
+		if (ft_atoi(str[i]) > 255 || ft_atoi(str[i]) < 0)
+			print_error(p, "rgb number too big", NULL);
 		i++;
 	}
+	printf("here4\n");//d
 	r = (unsigned char)ft_atoi(str[0]);
 	g = (unsigned char)ft_atoi(str[1]);
 	b = (unsigned char)ft_atoi(str[2]);
+	printf("g: %d", g); //d
+	printf("b: %d", b); //d
 	hexa_colour = (r << 16) | (g << 8) | b;
 	return (hexa_colour);
 }

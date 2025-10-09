@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 14:41:29 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/09 22:32:02 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 	t_game	game;
 
 	if (parsing (&parse, ac, av) == 1)
-		return (1);
+		print_error(&parse, "Invalid file", NULL);
 	if (parse_to_exec(&parse, &game) == 1)
 		return (1);
 	init_mlx(&parse, &game);

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 16:59:09 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/09 23:18:39 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,41 @@ int	parsing(t_parse *parse, int ac, char **av)
 		return (1);
 	check_line_idmap(parse, av);
 	if (store_map(parse, av))
+	{
+		printf("here\n"); //d
 		return (1);
+	}
 	postcheck_map(parse);
 	return (0);
 }
 
 void	check_line_idmap(t_parse *p, char **av)
 {
-	int		fd;
 	int		line_no;
 	char	*line;
 
 	line = NULL;
-	fd = open(av[1], O_RDONLY);
+	p->fd = open(av[1], O_RDONLY);
 	line_no = 0;
-	check_ids(p, line, fd, &line_no);
-	check_maps(p, line, fd, &line_no);
+	check_ids(p, line, &line_no);
+	check_maps(p, line, &line_no);
+	close(p->fd);
 }
 
-void	check_ids(t_parse *p, char *line, int fd, int *line_no)
+void	check_ids(t_parse *p, char *line, int *line_no)
 {
 	while (check_ids_reg(p))
 	{
-		line = get_next_line_bonus(fd);
+		line = get_next_line_bonus(p->fd);
 		if (!line)
 			break ;
 		if (check_line(p, line))
-			print_error(p, "Identifier problem");
+			print_error(p, "Identifier prob", line);
 		free(line);
 		(*line_no)++;
 	}
 	if (!line)
-		print_error(p, "not enough argument");
+		print_error(p, "Arg no/file permit", NULL);
 }
 
 //check all identifier before map in line

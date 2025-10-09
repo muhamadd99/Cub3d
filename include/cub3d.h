@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 16:42:34 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/09 23:03:59 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef	struct s_parse
 	int		mapend_pos;
 	int		max_height;
 	int		max_width;
+	int		fd;
 	char	**map;
 	char	**map_copy;
 
@@ -147,7 +148,7 @@ void	free_map(t_parse *p, char **str);
 void	free_twop(char **str);
 void	skip_whitespace(char *line, int *i);
 int		parse_to_exec(t_parse *parse, t_game *game);
-void	print_error(t_parse *parse, char *message);
+void	print_error(t_parse *parse, char *message, char *line);
 void	print_param(t_parse *p);
 void	print_param2(t_game	*g);
 void	print_param_map(int height, int width, char **map);
@@ -156,8 +157,8 @@ void	skip_space_not(char *line, int *i, int space);
 //texture & colour handling
 void	check_line_idmap(t_parse *p, char **av);
 int		check_id_string(t_parse *parse, char *line, int *i);
-void	check_ids(t_parse *p, char *line, int fd, int *line_no);
-void	check_maps(t_parse *p, char *line, int fd, int *line_no);
+void	check_ids(t_parse *p, char *line, int *line_no);
+void	check_maps(t_parse *p, char *line, int *line_no);
 void	colour_filled(t_parse *p, char c);
 int		colour_digit(t_parse *p, char *line, int *i);
 int		colour_digit2(t_parse *p, char **str);

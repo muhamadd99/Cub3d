@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:38:16 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 14:40:45 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/09 22:31:56 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	init_mlx(t_parse *parse, t_game *game)
 {
 	game->mlx = mlx_init();
 	if (!game->mlx)
-		print_error(parse, "mlx_init");
+		print_error(parse, "mlx_init", NULL);
 	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->win)
-		print_error(parse, "mlx_new_window");
+		print_error(parse, "mlx_new_window", NULL);
 }
 
 void	init_image(t_game *game)
@@ -43,7 +43,7 @@ void	load_texture(t_game *game, t_texture *tex, char *path)
 	if (!tex->img.img)
 	{
 		//printf("Error: failed to load texture %s\n", path);
-		print_error(NULL, "Fail to load texture");
+		print_error(NULL, "Fail to load texture", NULL);
 		free_twop(game->map);
 		free(game->north_texture);
 		free(game->south_texture);

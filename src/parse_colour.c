@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/10 00:05:56 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:20:05 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,18 @@ char	**remove_spaces(t_parse *p, char **str)
 	int		i;
 	char	**new_str;
 
+	(void)p;
 	i = 0;
 	while (str[i])
 		i++;
 	if (i != 3)
 	{
 		free_twop(str);
-		print_error(p, "not enough colour value", NULL);
+		return (NULL);
 	}
 	new_str = substr_colour(str);
+	if (!new_str)
+		return (NULL);
 	return (new_str);
 }
 // start = *i;
@@ -77,7 +80,9 @@ char	**substr_colour(char **str)
 	int		i;
 	int		j;
 	int		start;
+	int		error;
 
+	error = 0;
 	new_str = malloc(sizeof(char *) * 4);
 	if (!new_str)
 		return (NULL);
@@ -86,6 +91,8 @@ char	**substr_colour(char **str)
 	{
 		j = 0;
 		skip_space_not(str[i], &j, 1);
+		if (str[i][j] == '\n' || str[i][j] == '\0')
+			error = 1;
 		start = j;
 		skip_space_not(str[i], &j, 0);
 		new_str[i] = ft_substr(str[i], start, j - start);
@@ -93,7 +100,13 @@ char	**substr_colour(char **str)
 	}
 	new_str[3] = NULL;
 	free_twop(str);
-	return (new_str);
+	if (error == 1)
+	{
+		free_twop(new_str);
+		return (NULL);
+	}
+	else
+		return (new_str);
 }
 
 int	colour_digit2(t_parse *p, char **str)
@@ -111,12 +124,9 @@ int	colour_digit2(t_parse *p, char **str)
 			print_error(p, "rgb number too big", NULL);
 		i++;
 	}
-	printf("here4\n");//d
 	r = (unsigned char)ft_atoi(str[0]);
 	g = (unsigned char)ft_atoi(str[1]);
 	b = (unsigned char)ft_atoi(str[2]);
-	printf("g: %d", g); //d
-	printf("b: %d", b); //d
 	hexa_colour = (r << 16) | (g << 8) | b;
 	return (hexa_colour);
 }

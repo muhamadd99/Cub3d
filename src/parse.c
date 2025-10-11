@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 23:18:39 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:17:20 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	parsing(t_parse *parse, int ac, char **av)
 		return (1);
 	check_line_idmap(parse, av);
 	if (store_map(parse, av))
-	{
-		printf("here\n"); //d
 		return (1);
-	}
 	postcheck_map(parse);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 23:54:51 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:16:31 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,15 @@ int	check_nonspace(char *line)
 
 void	print_error(t_parse *parse, char *message, char *line)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
-	// while (i < 4)
-	// {
-	// 	if (parse->texture[i])
-	// 		free(parse->texture[i]);
-	// 	i++;
-	// }
+	i = 0;
+	while (i < 4)
+	{
+		if (parse->texture[i])
+			free(parse->texture[i]);
+		i++;
+	}
 	if (parse->map)
 		free_map(parse, parse->map);
 	if (parse->map_copy)

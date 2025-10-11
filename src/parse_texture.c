@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/10 00:01:54 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:17:14 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	parse_colour(t_parse *p, char c, char *line, int *i)
 		print_error(p, "wrong value for colour", line);
 	hexa_col = colour_digit(p, line, i);
 	store_colour(p, c, hexa_col);
-	printf("here2\n"); //d
 	while (line[*i])
 		(*i)++;
 }
@@ -120,13 +119,12 @@ int	colour_digit(t_parse *p, char *line, int *i)
 	char	**new_str;
 	int		hexa_col;
 
-	printf("here3\n"); //d
 	new_str = ft_split(line + *i, ',');
 	if (!new_str)
 		print_error(p, "malloc", line);
 	new_str = remove_spaces(p, new_str);
 	if (!new_str)
-		print_error(p, "malloc", line);
+		print_error(p, "Colour process failed", line);
 	if (ft_strdigit(new_str) == 0)
 	{
 		free_twop(new_str);

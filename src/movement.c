@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:05:52 by abin-moh          #+#    #+#             */
-/*   Updated: 2025/09/30 11:06:50 by abin-moh         ###   ########.fr       */
+/*   Updated: 2025/10/12 09:55:41 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int key_press(int keycode, t_game *game)
     if (keycode == KEY_RIGHT)
         game->key_right = 1;
     if (keycode == KEY_ESC)
-        exit(1);                 /* kene check exit nak kena cleanup apa2 tak */
+        print_exit(game, NULL);                 /* kene check exit nak kena cleanup apa2 tak */
     return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:55:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 11:44:12 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 00:19:16 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,19 @@ void	free_twop(char **str)
 	free(str);
 }
 
-void	free_map(t_parse *p, char **str)
+void	free_map(t_parse *p, t_game *g, char **str)
 {
 	int	i;
+	int	max;
 
+	if (p)
+		max = p->max_height;
+	else
+		max = g->map_height;
 	i = 0;
 	if (!str)
 		return ;
-	while (i < p->max_height)
+	while (i < max)
 	{
 		free(str[i]);
 		i++;

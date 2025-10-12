@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:39:18 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 23:28:14 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/11 23:45:58 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_maps(t_parse *p, char *line, int *line_no)
 		if (!line)
 			break ;
 		if (proc_map(p, line, *line_no))
-			print_error(p, "wrong map", NULL);
+			print_error(p, "wrong map", line);
 		free(line);
 		(*line_no)++;
 	}

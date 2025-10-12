@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/10 09:20:05 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 00:16:15 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ char	**substr_colour(char **str)
 	new_str = malloc(sizeof(char *) * 4);
 	if (!new_str)
 		return (NULL);
-	i = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
 		j = 0;
 		skip_space_not(str[i], &j, 1);
@@ -96,17 +96,11 @@ char	**substr_colour(char **str)
 		start = j;
 		skip_space_not(str[i], &j, 0);
 		new_str[i] = ft_substr(str[i], start, j - start);
-		i++;
 	}
 	new_str[3] = NULL;
-	free_twop(str);
 	if (error == 1)
-	{
-		free_twop(new_str);
-		return (NULL);
-	}
-	else
-		return (new_str);
+		return (free_twop(str), free_twop(new_str), NULL);
+	return (free_twop(str), new_str);
 }
 
 int	colour_digit2(t_parse *p, char **str)

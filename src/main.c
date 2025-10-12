@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 22:32:02 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 00:20:32 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	parse_to_exec(t_parse *p, t_game *g)
 	g->map[(int)g->player.pos_y][(int)g->player.pos_x] = '0';
 	g->player.pos_x += 0.5;
 	g->player.pos_y += 0.5;
-	free_map(p, p->map);
-	free_map(p, p->map_copy);
+	free_map(p, g,p->map);
+	free_map(p, g, p->map_copy);
 	free(p->texture[0]);
 	free(p->texture[1]);
 	free(p->texture[2]);

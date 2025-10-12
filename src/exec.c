@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:38:16 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 22:31:56 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 10:18:00 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void	load_texture(t_game *game, t_texture *tex, char *path)
 	if (!tex->img.img)
 	{
 		//printf("Error: failed to load texture %s\n", path);
-		print_error(NULL, "Fail to load texture", NULL);
-		free_twop(game->map);
-		free(game->north_texture);
-		free(game->south_texture);
-		free(game->east_texture);
-		free(game->west_texture);
-		exit (1);//////////check exit fcuntion
+		print_exit(game, "Fail to load texture");
+		// free_map(NULL, game, game->map);
+		// free(game->north_texture);
+		// free(game->south_texture);
+		// free(game->east_texture);
+		// free(game->west_texture);
+		// exit (1);//////////check exit fcuntion
 	}
 	tex->img.addr = mlx_get_data_addr(tex->img.img,
 			&tex->img.bits_per_pixel,
@@ -67,8 +67,6 @@ void	init_textures(t_game *game)
 
 int	close_window(t_game *game)
 {
-	if (game->win)
-		mlx_destroy_window(game->mlx, game->win);
-	exit(0);
+	print_exit(game, NULL);
 	return (0);
 }

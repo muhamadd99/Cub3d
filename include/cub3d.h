@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/09 23:03:59 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 09:55:20 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,28 +114,28 @@ typedef struct s_game
 	t_img		img;
 }	t_game;
 
-typedef	struct s_parse
+typedef struct s_parse
 {
-	char	*texture[4];
-	int		floor_value;
-	int		ceiling_value;
-	int		argend_pos;
-	int		map_pos;
-	int		mapend_pos;
-	int		max_height;
-	int		max_width;
-	int		fd;
-	char	**map;
-	char	**map_copy;
+	char		*texture[4];
+	int			floor_value;
+	int			ceiling_value;
+	int			argend_pos;
+	int			map_pos;
+	int			mapend_pos;
+	int			max_height;
+	int			max_width;
+	int			fd;
+	char		**map;
+	char		**map_copy;
 
-	int		tex_flag[4];
-	int		floor_flag;
-	int		ceiling_flag;
-	int		map_flag;
-	int		player_flag;
+	int			tex_flag[4];
+	int			floor_flag;
+	int			ceiling_flag;
+	int			map_flag;
+	int			player_flag;
 	t_player	player;
 	//t_game		*game;
-} t_parse;
+}	t_parse;
 
 //int		ft_isdigit(char c);
 int		wspace_check(char c);
@@ -144,11 +144,12 @@ int		parse_file(t_parse *p, char **av);
 int		check_ids_reg(t_parse *p);
 int		check_nonspace(char *line);
 int		check_line(t_parse *parse, char *line);
-void	free_map(t_parse *p, char **str);
+void	free_map(t_parse *p, t_game *g, char **str);
 void	free_twop(char **str);
 void	skip_whitespace(char *line, int *i);
 int		parse_to_exec(t_parse *parse, t_game *game);
 void	print_error(t_parse *parse, char *message, char *line);
+void	print_exit(t_game *game, char *message);
 void	print_param(t_parse *p);
 void	print_param2(t_game	*g);
 void	print_param_map(int height, int width, char **map);

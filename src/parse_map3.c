@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map2.c                                       :+:      :+:    :+:   */
+/*   parse_map3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 21:21:26 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/07 15:51:49 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/12 15:22:27 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@ int	store_map_line(t_parse *p, char *line, int line_no)
 	copy_map_array(p, p->map_copy);
 	return (0);
 }
-
-// i = 0;
-// while (i < p->max_height)
-// {
-// 	ft_memcpy(p->map_copy[i], p->map[i], p->max_width);
-// 	i++;
-// }
 
 void	copy_map_array(t_parse *p, char **map)
 {

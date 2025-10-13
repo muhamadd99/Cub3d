@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/12 15:21:59 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:59:01 by abin-moh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ int		store_map_line(t_parse *p, char *line, int line_no);
 void	store_map_array(t_parse *p, char *line, int line_no);
 
 //muz
+void	free_tex(t_game *game);
 void	init_image(t_game *game);
 void	init_textures(t_game *game);
 void	init_mlx(t_parse *parse, t_game *game);

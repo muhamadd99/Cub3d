@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:28:11 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:17:14 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,58 @@
 //p: null term and \n check, substr
 void	parse_texture(t_parse *p, int id, char *line, int *i)
 {
-	int		start;
-	int		len;
 	char	*new_str;
 
 	if (p->tex_flag[id] == 0)
 		p->tex_flag[id] = 1;
 	else
-		print_error(p, "2 Texture detected");
+		print_error(p, "2 Texture detected", line);
 	*i = *i + 3;
 	skip_space_not(line, i, 1);
 	if (line[*i] == '\n' || line[*i] == '\0')
-		print_error(p, "not enough param1");
+		print_error(p, "not enough param1", line);
+	new_str = texture_path(p, line, i);
+	p->texture[id] = new_str;
+	skip_space_not(line, i, 1);
+	if (line[*i] == '\n')
+		(*i)++;
+	else
+		print_error(p, "not enough param3", line);
+}
 	//substr identifier
+	// start = *i;
+	// while (wspace_check(line[*i]) == 0 && line[*i])
+	// 	(*i)++;
+	// if (start == *i)
+	// 	print_error(p, "not enough param2");
+	// len = *i - start;
+	// new_str = ft_substr(line, start, len);
+	// if (!new_str)
+	// 	print_error(p, "memory allocation failed");
+	// if (len < 5 || ft_strncmp(new_str + len - 4, ".xpm", 4))
+	// 	print_error(p, "wrong file for texture");
+
+char	*texture_path(t_parse *p, char *line, int *i)
+{
+	int		start;
+	int		len;
+	char	*new_str;
+
 	start = *i;
 	while (wspace_check(line[*i]) == 0 && line[*i])
 		(*i)++;
 	if (start == *i)
-		print_error(p, "not enough param2");
+		print_error(p, "not enough param2", line);
 	len = *i - start;
 	new_str = ft_substr(line, start, len);
 	if (!new_str)
-		print_error(p, "memory allocation failed");
+		print_error(p, "memory allocation failed", line);
 	if (len < 5 || ft_strncmp(new_str + len - 4, ".xpm", 4))
-		print_error(p, "wrong file for texture");
-	p->texture[id] = new_str;
-	skip_space_not(line, i, 1);
-	//handle path 
-	if (line[*i] == '\n')
-		(*i)++;
-	else
-		print_error(p, "not enough param3");
+	{
+		free(new_str);
+		print_error(p, "wrong file for texture", line);
+	}
+	return (new_str);
 }
 
 //p: check f or c, check if they registered or not
@@ -65,7 +86,7 @@ void	parse_colour(t_parse *p, char c, char *line, int *i)
 	*i = *i + 2;
 	skip_space_not(line, i, 1);
 	if (ft_isdigit((unsigned char)line[*i]) == 0)
-		print_error(p, "wrong value for colour");
+		print_error(p, "wrong value for colour", line);
 	hexa_col = colour_digit(p, line, i);
 	store_colour(p, c, hexa_col);
 	while (line[*i])
@@ -79,99 +100,50 @@ void	colour_filled(t_parse *p, char c)
 		if (p->floor_flag == 0)
 			p->floor_flag = 1;
 		else
-			print_error(p, "2 Floor colour detected");
+			print_error(p, "2 Floor colour", NULL);
 	}
 	else
 	{
 		if (p->ceiling_flag == 0)
 			p->ceiling_flag = 1;
 		else
-			print_error(p, "2 ceiling colour detected");
+			print_error(p, "2 Ceiling colour", NULL);
 	}
 }
 
 //process the 230,230,230 part;
 //check char nbr only or not
 //check 3 group number given or not
-//
 int	colour_digit(t_parse *p, char *line, int *i)
 {
 	char	**new_str;
 	int		hexa_col;
-	int		col_count;
 
-	while (wspace_check(line[*i]) == 0 && line[*i] == '\0')
-		(*i)++; //why need to whitespace check? the moment it come here already digit
 	new_str = ft_split(line + *i, ',');
 	if (!new_str)
-		print_error(p, "malloc");
+		print_error(p, "malloc", line);
 	new_str = remove_spaces(p, new_str);
-	//already in array of char but consist of numbers
+	if (!new_str)
+		print_error(p, "Colour process failed", line);
 	if (ft_strdigit(new_str) == 0)
-		return (0);
-	//check no of colour in array
-	col_count = 0;
-	while (new_str[col_count])
-		col_count++;
-	if (col_count != 3)
 	{
 		free_twop(new_str);
-		print_error(p, "not enough colour value");
+		print_error(p, "invalid colour", line);
 	}
 	hexa_col = colour_digit2(p, new_str);
+	free_twop(new_str);
 	return (hexa_col);
 }
-
-//check number of splitted
-char	**remove_spaces(t_parse *p, char **str)
-{
-	int		i;
-	int		j;
-	int		start;
-	char	**new_str;
-
-	i = 0;
-	while (str[i])
-		i++;
-	if (i != 3)
-	{
-		free_twop(str);
-		print_error(p, "not enough colour value");
-	}
-	new_str = malloc(sizeof(char *) * 4);
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		j = 0;
-		skip_space_not(str[i], &j, 1);
-		start = j;
-		skip_space_not(str[i], &j, 0);
-		new_str[i] = ft_substr(str[i], start, j - start);
-		i++;
-	}
-	return (new_str);
-}
-
-// start = *i;
-// while(wspace_check(line[*i]) == 0 && line[*i] == '\0')
-// 	(*i)++;
-// rgb = ft_split(line, ',');
-// if (!rgb)
-// 	print_error(p, "malloc");
-// colour_count = 0;
-// while(rgb[colour_count])
-// {
-// 	rgb = ft_atoi(new_str);
-// 	colour_count++;
-// }
-// if (colour_count != 3)
-// 	print_error(p, "not enough colour value");
-
-// int	ft_isdigit(char c)
-// {
-// 	if (c >= '0' && c <= '9')
-// 		return (1);
-// 	return (0);
-// }
+	//int		col_count;
+	//why need to whitespace check? the moment it come here already digit
+	// while (wspace_check(line[*i]) == 0 && line[*i] == '\0')
+	// 	(*i)++; 
+	//check no of colour in array
+	// col_count = 0;
+	// while (new_str[col_count])
+	// 	col_count++;
+	// if (col_count != 3)
+	// {
+	// 	free_twop(new_str);
+	// 	print_error(p, "not enough colour value");
+	// }

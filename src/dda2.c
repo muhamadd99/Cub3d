@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:20:27 by abin-moh          #+#    #+#             */
-/*   Updated: 2025/10/06 14:30:50 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:41:46 by abin-moh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@
 
 void	pick_texture(t_game *game, t_ray *ray)
 {
-    if (ray->side == 0 && ray->ray_dir_x > 0)
-        ray->tex_num = 3;
-    else if (ray->side == 0 && ray->ray_dir_x < 0)
-        ray->tex_num = 2;
-    else if (ray->side == 1 && ray->ray_dir_y > 0)
-        ray->tex_num = 1;
-    else
-        ray->tex_num = 0;
-    ray->tex = &game->textures[ray->tex_num].img;
+	if (ray->side == 0 && ray->ray_dir_x > 0)
+		ray->tex_num = 3;
+	else if (ray->side == 0 && ray->ray_dir_x < 0)
+		ray->tex_num = 2;
+	else if (ray->side == 1 && ray->ray_dir_y > 0)
+		ray->tex_num = 1;
+	else
+		ray->tex_num = 0;
+	ray->tex = &game->textures[ray->tex_num].img;
 }
 
 /*
@@ -40,22 +40,27 @@ void	pick_texture(t_game *game, t_ray *ray)
     calculate how much texture to move per screen pixel (step)
     find the starting texture position at the top of the wall slice (tex_pos)
 */
-void texture_and_coordinate(t_game *game, t_ray *ray)
+void	texture_and_coordinate(t_game *game, t_ray *ray)
 {
-    if (!ray->tex || ray->tex->width <= 0 || ray->tex->height <= 0 || !ray->tex->addr)
-        return ;
-    if (ray->side == 0)
-        ray->wall_x = game->player.pos_y + ray->perp_wall_dist * ray->ray_dir_y;
-    else
-        ray->wall_x = game->player.pos_x + ray->perp_wall_dist * ray->ray_dir_x;
-    ray->wall_x -= floor(ray->wall_x);
-    ray->tex_x = (int)(ray->wall_x * (double)ray->tex->width);
-    if ((ray->side == 0 && ray->ray_dir_x > 0) || (ray->side == 1 && ray->ray_dir_y < 0))
-        ray->tex_x = ray->tex->width - ray->tex_x - 1;
-    if (ray->tex_x < 0)
+	if (!ray->tex || ray->tex->width <= 0
+		|| ray->tex->height <= 0 || !ray->tex->addr)
+		return ;
+	if (ray->side == 0)
+		ray->wall_x = game->player.pos_y + ray->perp_wall_dist * ray->ray_dir_y;
+	else
+		ray->wall_x = game->player.pos_x + ray->perp_wall_dist * ray->ray_dir_x;
+	ray->wall_x -= floor(ray->wall_x);
+	ray->tex_x = (int)(ray->wall_x * (double)ray->tex->width);
+	if ((ray->side == 0 && ray->ray_dir_x > 0)
+		|| (ray->side == 1 && ray->ray_dir_y < 0))
+		ray->tex_x = ray->tex->width - ray->tex_x - 1;
+	if (ray->tex_x < 0)
 		ray->tex_x = 0;
-    if (ray->tex_x >= ray->tex->width)
-        ray->tex_x = ray->tex->width - 1;
+	if (ray->tex_x >= ray->tex->width)
+		ray->tex_x = ray->tex->width - 1;
+	ray->step = 1.0 * ray->tex->height / (double)ray->line_height;
+	ray->tex_pos = (ray->draw_start
+			- WIN_HEIGHT / 2.0 + ray->line_height / 2.0) * ray->step;
 }
 
 /*
@@ -67,31 +72,29 @@ void texture_and_coordinate(t_game *game, t_ray *ray)
         - place that color into the screen image buffer at (x, y)
     increment tex_pos each time to move down the texture correctly
 */
-void draw_vertical_line(t_game *game, t_ray *ray, int x)
+void	draw_vertical_line(t_game *game, t_ray *ray, int x)
 {
-    char            *dst;
-    unsigned int    color;
-    char            *tex_dst;
-    int             y;
+	char			*dst;
+	unsigned int	color;
+	char			*tex_dst;
+	int				y;
 
-    if (!ray->tex || !ray->tex->addr)
-        return ;
-    ray->step = 1.0 * ray->tex->height / (double)ray->line_height;
-    ray->tex_pos = (ray->draw_start - WIN_HEIGHT / 2.0 + ray->line_height / 2.0) * ray->step;
-    y = ray->draw_start - 1;
-    while (++y < ray->draw_end)
-    {
-        ray->tex_y = (int)ray->tex_pos;
-        if (ray->tex_y < 0)
-            ray->tex_y = 0;
-        if (ray->tex_y >= ray->tex->height)
-            ray->tex_y = ray->tex->height - 1;
-        ray->tex_pos += ray->step;
-        tex_dst = ray->tex->addr + (ray->tex_y * ray->tex->line_length
-                    + ray->tex_x * (ray->tex->bits_per_pixel / 8));
-        color = *(unsigned int *)tex_dst;
-        dst = game->img.addr + (y * game->img.line_length
-                        + x * (game->img.bits_per_pixel / 8));
-        *(unsigned int *)dst = color;
-    }
+	if (!ray->tex || !ray->tex->addr)
+		return ;
+	y = ray->draw_start - 1;
+	while (++y < ray->draw_end)
+	{
+		ray->tex_y = (int)ray->tex_pos;
+		if (ray->tex_y < 0)
+			ray->tex_y = 0;
+		if (ray->tex_y >= ray->tex->height)
+			ray->tex_y = ray->tex->height - 1;
+		ray->tex_pos += ray->step;
+		tex_dst = ray->tex->addr + (ray->tex_y * ray->tex->line_length
+				+ ray->tex_x * (ray->tex->bits_per_pixel / 8));
+		color = *(unsigned int *)tex_dst;
+		dst = game->img.addr + (y * game->img.line_length
+				+ x * (game->img.bits_per_pixel / 8));
+		*(unsigned int *)dst = color;
+	}
 }

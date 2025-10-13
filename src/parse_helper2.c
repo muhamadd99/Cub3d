@@ -3,14 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   parse_helper2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/06 22:42:28 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:19:48 by abin-moh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
+
+void	print_param_map(int height, int width, char **map)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < height)
+	{
+		i = 0;
+		while (i < width)
+		{
+			printf("%c", map[j][i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
+}
+
+int	check_nonspace(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (!line)
+		return (0);
+	while (line[i])
+	{
+		if (!wspace_check(line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	print_error(t_parse *parse, char *message, char *line)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (parse->texture[i])
+			free(parse->texture[i]);
+		i++;
+	}
+	if (parse->map)
+		free_map(parse, NULL,parse->map);
+	if (parse->map_copy)
+		free_map(parse, NULL,parse->map_copy);
+	while (line)
+	{
+		free(line);
+		line = get_next_line_bonus(parse->fd);
+	}
+	printf("Error\n");
+	printf("%s\n", message);
+	exit(1);
+}
+
+void	print_exit(t_game *game, char *message)
+{
+	free_tex(game);
+	if (game->img.img)
+		mlx_destroy_image(game->mlx, game->img.img);
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
+	free(game->north_texture);
+	free(game->south_texture);
+	free(game->west_texture);
+	free(game->east_texture);
+	free_map(NULL, game, game->map);
+	if (message)
+	{
+		printf("Error\n%s\n", message);
+		exit(1);
+	}
+	exit (0);
+}
 
 void	print_param(t_parse *p)
 {
@@ -55,39 +140,4 @@ void	print_param2(t_game	*g)
 	printf("player pos_y: %f\n", g->player.pos_y);
 	printf("map\n");
 	print_param_map(g->map_height, g->map_width, g->map);
-}
-
-void	print_param_map(int height, int width, char **map)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	while (j < height)
-	{
-		i = 0;
-		while (i < width)
-		{
-			printf("%c", map[j][i]);
-			i++;
-		}
-		printf("\n");
-		j++;
-	}
-}
-
-int	check_nonspace(char *line)
-{
-	int	i;
-
-	i = 0;
-	if (!line)
-		return (0);
-	while (line[i])
-	{
-		if (!wspace_check(line[i]))
-			return (1);
-		i++;
-	}
-	return (0);
 }

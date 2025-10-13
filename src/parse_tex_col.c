@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_texture.c                                    :+:      :+:    :+:   */
+/*   parse_tex_col.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/10 09:17:14 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:50:01 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	skip_space_not(line, i, 1);
 	if (line[*i] == '\n' || line[*i] == '\0')
 		print_error(p, "not enough param1", line);
-	new_str = texture_path(p, line, i);
+	new_str = parse_tex_path(p, line, i);
 	p->texture[id] = new_str;
 	skip_space_not(line, i, 1);
 	if (line[*i] == '\n')
@@ -38,20 +38,8 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	else
 		print_error(p, "not enough param3", line);
 }
-	//substr identifier
-	// start = *i;
-	// while (wspace_check(line[*i]) == 0 && line[*i])
-	// 	(*i)++;
-	// if (start == *i)
-	// 	print_error(p, "not enough param2");
-	// len = *i - start;
-	// new_str = ft_substr(line, start, len);
-	// if (!new_str)
-	// 	print_error(p, "memory allocation failed");
-	// if (len < 5 || ft_strncmp(new_str + len - 4, ".xpm", 4))
-	// 	print_error(p, "wrong file for texture");
 
-char	*texture_path(t_parse *p, char *line, int *i)
+char	*parse_tex_path(t_parse *p, char *line, int *i)
 {
 	int		start;
 	int		len;
@@ -82,39 +70,39 @@ void	parse_colour(t_parse *p, char c, char *line, int *i)
 {
 	int	hexa_col;
 
-	colour_filled(p, c);
+	parse_col_reg(p, c, line);
 	*i = *i + 2;
 	skip_space_not(line, i, 1);
 	if (ft_isdigit((unsigned char)line[*i]) == 0)
 		print_error(p, "wrong value for colour", line);
-	hexa_col = colour_digit(p, line, i);
-	store_colour(p, c, hexa_col);
+	hexa_col = parse_col_toint(p, line, i);
+	parse_col_store(p, c, hexa_col);
 	while (line[*i])
 		(*i)++;
 }
 
-void	colour_filled(t_parse *p, char c)
+void	parse_col_reg(t_parse *p, char c, char *line)
 {
 	if (c == 'f')
 	{
 		if (p->floor_flag == 0)
 			p->floor_flag = 1;
 		else
-			print_error(p, "2 Floor colour", NULL);
+			print_error(p, "2 Floor colour", line);
 	}
 	else
 	{
 		if (p->ceiling_flag == 0)
 			p->ceiling_flag = 1;
 		else
-			print_error(p, "2 Ceiling colour", NULL);
+			print_error(p, "2 Ceiling colour", line);
 	}
 }
 
 //process the 230,230,230 part;
 //check char nbr only or not
 //check 3 group number given or not
-int	colour_digit(t_parse *p, char *line, int *i)
+int	parse_col_toint(t_parse *p, char *line, int *i)
 {
 	char	**new_str;
 	int		hexa_col;
@@ -122,7 +110,7 @@ int	colour_digit(t_parse *p, char *line, int *i)
 	new_str = ft_split(line + *i, ',');
 	if (!new_str)
 		print_error(p, "malloc", line);
-	new_str = remove_spaces(p, new_str);
+	new_str = parse_col_substr(p, new_str);
 	if (!new_str)
 		print_error(p, "Colour process failed", line);
 	if (ft_strdigit(new_str) == 0)
@@ -130,20 +118,7 @@ int	colour_digit(t_parse *p, char *line, int *i)
 		free_twop(new_str);
 		print_error(p, "invalid colour", line);
 	}
-	hexa_col = colour_digit2(p, new_str);
+	hexa_col = parse_col_toint2(p, new_str);
 	free_twop(new_str);
 	return (hexa_col);
 }
-	//int		col_count;
-	//why need to whitespace check? the moment it come here already digit
-	// while (wspace_check(line[*i]) == 0 && line[*i] == '\0')
-	// 	(*i)++; 
-	//check no of colour in array
-	// col_count = 0;
-	// while (new_str[col_count])
-	// 	col_count++;
-	// if (col_count != 3)
-	// {
-	// 	free_twop(new_str);
-	// 	print_error(p, "not enough colour value");
-	// }

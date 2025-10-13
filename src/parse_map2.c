@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:47:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/12 15:14:12 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/13 12:49:17 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //if havent have whitespace skip
 //if found, now whitespace just check
 //once validated, store everything
-int	proc_map(t_parse *p, char *line, int line_no)
+int	map_check(t_parse *p, char *line, int line_no)
 {
 	int	i;
 
@@ -36,7 +36,7 @@ int	proc_map(t_parse *p, char *line, int line_no)
 	}
 	if (p->map_flag == 1)
 	{
-		if (check_map(p, line, line_no))
+		if (map_char(p, line, line_no))
 			return (1);
 	}
 	return (0);
@@ -45,7 +45,7 @@ int	proc_map(t_parse *p, char *line, int line_no)
 //check map has wrong char or not
 //p: if map has char that not space and digit
 //p: if NSEW, register. if registered, error.
-int	check_map(t_parse *p, char *line, int line_no)
+int	map_char(t_parse *p, char *line, int line_no)
 {
 	int	i;
 	int	digit_flag;
@@ -58,7 +58,7 @@ int	check_map(t_parse *p, char *line, int line_no)
 			break ;
 		if (line[i] == '0' || line[i] == '1')
 			digit_flag = 1;
-		if (map_nondigit_case(p, line, line_no, i))
+		if (map_nondigit(p, line, line_no, i))
 			return (1);
 		i++;
 		if (i > p->max_width)
@@ -74,14 +74,14 @@ int	check_map(t_parse *p, char *line, int line_no)
 //p: check non-digit & non-space char
 //p: register as player pos if correct char
 //p: if wrong char, return 1
-int	map_nondigit_case(t_parse *p, char *line, int line_no, int i)
+int	map_nondigit(t_parse *p, char *line, int line_no, int i)
 {
 	if (line[i] != '0' && line[i] != '1'
 		&& wspace_check(line[i]) != 1)
 	{
 		if (!p->player_flag)
 		{
-			if (map_reg(p, line[i], i, line_no) == 0)
+			if (parse_player(p, line[i], i, line_no) == 0)
 				p->player_flag = 1;
 			else
 				return (1);
@@ -95,7 +95,7 @@ int	map_nondigit_case(t_parse *p, char *line, int line_no, int i)
 //check NSEW char.
 //p: if NSEW register value
 //p: if not NSEW return 1
-int	map_reg(t_parse *p, char c, int i, int line_no)
+int	parse_player(t_parse *p, char c, int i, int line_no)
 {
 	t_player	*pl;
 

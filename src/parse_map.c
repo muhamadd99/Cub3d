@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:39:18 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 12:48:47 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:30:33 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	map_store(t_parse *p, char **av)
 void	postcheck_map(t_parse *p)
 {
 	if (!p->player_flag)
-		print_error(p, "no player", NULL);
+		print_error(p, "no map/player", NULL);
 	if (flood_fill(p, p->player.pos_x, p->player.pos_y))
 		print_error(p, "not closed map", NULL);
 }

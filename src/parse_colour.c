@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 12:48:10 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:12:45 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 
 //check number of splitted
 //substr to remove infront and at the back
-char	**parse_col_substr(t_parse *p, char **str)
+char	**parse_col_substr(char **str)
 {
 	int		i;
 	char	**new_str;
 
-	(void)p;
 	i = 0;
 	while (str[i])
 		i++;
@@ -107,8 +106,14 @@ int	ft_strdigit(char **str)
 		i = 0;
 		while (str[j][i])
 		{
-			if (ft_isdigit((unsigned char)str[j][i]) == 0)
-				return (0);
+			if (j < 2)
+				if (ft_isdigit((unsigned char)str[j][i]) == 0)
+					if (str[j][i] != ' ')
+						return (0);
+			if (j == 2)
+				if (ft_isdigit((unsigned char)str[j][i]) == 0)
+					if (wspace_check(str[j][i]) == 0)
+						return (0);
 			i++;
 		}
 		j++;

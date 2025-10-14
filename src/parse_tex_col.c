@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 12:50:01 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:10:16 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 		print_error(p, "not enough param1", line);
 	new_str = parse_tex_path(p, line, i);
 	p->texture[id] = new_str;
-	skip_space_not(line, i, 1);
-	if (line[*i] == '\n')
-		(*i)++;
-	else
-		print_error(p, "not enough param3", line);
+	skip_whitespace(line, i);
+	if (line[*i] != '\0')
+		print_error(p, "Texture line invalid", line);
 }
+// skip_space_not_tabs(line, i, 1, 1);
+// if (line[*i] == '\n')
+// 	(*i)++;
+// else
+// 	print_error(p, "not enough param3", line);
+
 
 char	*parse_tex_path(t_parse *p, char *line, int *i)
 {
@@ -110,14 +114,14 @@ int	parse_col_toint(t_parse *p, char *line, int *i)
 	new_str = ft_split(line + *i, ',');
 	if (!new_str)
 		print_error(p, "malloc", line);
-	new_str = parse_col_substr(p, new_str);
-	if (!new_str)
-		print_error(p, "Colour process failed", line);
 	if (ft_strdigit(new_str) == 0)
 	{
 		free_twop(new_str);
 		print_error(p, "invalid colour", line);
 	}
+	new_str = parse_col_substr(new_str);
+	if (!new_str)
+		print_error(p, "Colour process failed", line);
 	hexa_col = parse_col_toint2(p, new_str);
 	free_twop(new_str);
 	return (hexa_col);

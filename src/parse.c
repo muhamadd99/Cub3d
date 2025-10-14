@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 10:00:06 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 12:50:35 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:35:09 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parsing(t_parse *parse, int ac, char **av) //parse
 	if (ac != 2)
 		return (1);
 	len = ft_strlen(av[1]);
-	if (len < 5)
+	if (len < 4)
 		return (1);
 	if (ft_strcmp(".cub", av[1] + len - 4))
 		return (1);
@@ -42,6 +42,8 @@ void	parse_idmap(t_parse *p, char **av)
 
 	line = NULL;
 	p->fd = open(av[1], O_RDONLY);
+	if (p->fd == -1)
+		print_error(p, "File not opened", NULL);
 	line_no = 0;
 	parse_id(p, line, &line_no);
 	parse_map(p, line, &line_no);

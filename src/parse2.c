@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:54:25 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 12:50:57 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:39:08 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //detect identifier
 int	parse_id_key(t_parse *parse, char *line, int *i)
 {
-	if (line[*i] == '\0')
+	if (line[*i] == '\0') //mcm xperlu
 		return (1);
 	else if (ft_strncmp("NO ", line + *i, 3) == 0)
 		parse_texture(parse, 0, line, i);

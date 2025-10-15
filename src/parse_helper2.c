@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 13:16:35 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 14:30:58 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	print_error(t_parse *parse, char *message, char *line)
 		free(line);
 		line = get_next_line_bonus(parse->fd);
 	}
+	if (parse->fd > 2)
+		close(parse->fd);
 	printf("Error\n");
 	printf("%s\n", message);
 	exit(1);

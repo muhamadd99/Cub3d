@@ -6,7 +6,7 @@
 /*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:20:27 by abin-moh          #+#    #+#             */
-/*   Updated: 2025/10/13 10:41:46 by abin-moh         ###   ########.fr       */
+/*   Updated: 2025/10/15 09:27:10 by abin-moh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 void	pick_texture(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0 && ray->ray_dir_x > 0)
-		ray->tex_num = 3;
-	else if (ray->side == 0 && ray->ray_dir_x < 0)
 		ray->tex_num = 2;
+	else if (ray->side == 0 && ray->ray_dir_x < 0)
+		ray->tex_num = 3;
 	else if (ray->side == 1 && ray->ray_dir_y > 0)
-		ray->tex_num = 1;
-	else
 		ray->tex_num = 0;
+	else
+		ray->tex_num = 1;
 	ray->tex = &game->textures[ray->tex_num].img;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 12:35:15 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:54:57 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int ac, char **av)
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 3, 1L << 1, key_release, &game);
 	mlx_loop_hook(game.mlx, render_frame, &game);
-	print_param2(&game);//importantdebug
 	mlx_loop(game.mlx);
 }
 

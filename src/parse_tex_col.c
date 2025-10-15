@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 12:40:56 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:16:54 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ void	parse_texture(t_parse *p, int id, char *line, int *i)
 	if (line[*i] != '\0')
 		print_error(p, "Texture line invalid", line);
 }
-// skip_space_not_tabs(line, i, 1, 1);
-// if (line[*i] == '\n')
-// 	(*i)++;
-// else
-// 	print_error(p, "not enough param3", line);
-
 
 char	*parse_tex_path(t_parse *p, char *line, int *i)
 {

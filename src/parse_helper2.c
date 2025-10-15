@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 08:49:28 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 12:36:42 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:16:35 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	print_error(t_parse *parse, char *message, char *line)
 		i++;
 	}
 	if (parse->map)
-		free_map(parse, NULL,parse->map);
+		free_map(parse, NULL, parse->map);
 	if (parse->map_copy)
-		free_map(parse, NULL,parse->map_copy);
+		free_map(parse, NULL, parse->map_copy);
 	while (line)
 	{
 		free(line);
@@ -121,23 +121,23 @@ void	print_param(t_parse *p)
 	print_param_map(p->max_height, p->max_width, p->map_copy);
 }
 
-void	print_param2(t_game	*g)
-{
-	printf("execution struct check\n");
-	printf("texture NO: %s\n", g->north_texture);
-	printf("texture SO: %s\n", g->south_texture);
-	printf("texture WE: %s\n", g->west_texture);
-	printf("texture EA: %s\n", g->east_texture);
-	printf("floor_colour: %d\n", g->floor_color);
-	printf("ceiling_colour: %d\n", g->ceiling_color);
-	printf("map_width: %d\n", g->map_width);
-	printf("map_height: %d\n", g->map_height);
-	printf("player dir_x: %f\n", g->player.dir_x);
-	printf("player dir_y: %f\n", g->player.dir_y);
-	printf("player plane_x: %f\n", g->player.plane_x);
-	printf("player plane_y: %f\n", g->player.plane_y);
-	printf("player pos_x: %f\n", g->player.pos_x);
-	printf("player pos_y: %f\n", g->player.pos_y);
-	printf("map\n");
-	print_param_map(g->map_height, g->map_width, g->map);
-}
+// void	print_param2(t_game	*g)
+// {
+// 	printf("execution struct check\n");
+// 	printf("texture NO: %s\n", g->north_texture);
+// 	printf("texture SO: %s\n", g->south_texture);
+// 	printf("texture WE: %s\n", g->west_texture);
+// 	printf("texture EA: %s\n", g->east_texture);
+// 	printf("floor_colour: %d\n", g->floor_color);
+// 	printf("ceiling_colour: %d\n", g->ceiling_color);
+// 	printf("map_width: %d\n", g->map_width);
+// 	printf("map_height: %d\n", g->map_height);
+// 	printf("player dir_x: %f\n", g->player.dir_x);
+// 	printf("player dir_y: %f\n", g->player.dir_y);
+// 	printf("player plane_x: %f\n", g->player.plane_x);
+// 	printf("player plane_y: %f\n", g->player.plane_y);
+// 	printf("player pos_x: %f\n", g->player.pos_x);
+// 	printf("player pos_y: %f\n", g->player.pos_y);
+// 	printf("map\n");
+// 	print_param_map(g->map_height, g->map_width, g->map);
+// }

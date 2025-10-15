@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 12:42:50 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:18:34 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,30 +82,27 @@ typedef struct s_ray
 
 typedef struct s_player
 {
-	//where the player is on the map
 	double	pos_x;
 	double	pos_y;
-	//where player facing
 	double	dir_x;
 	double	dir_y;
-	//hard coded FOV value
 	double	plane_x;
 	double	plane_y;
 }	t_player;
 
 typedef struct s_game
 {
-	void		*mlx;//
-	void		*win;//
-	char		**map;//
-	int			map_width;//
-	int			map_height;//
-	char		*north_texture;//
-	char		*south_texture;//
-	char		*west_texture;//
-	char		*east_texture;//
-	int			floor_color;//
-	int			ceiling_color;//
+	void		*mlx;
+	void		*win;
+	char		**map;
+	int			map_width;
+	int			map_height;
+	char		*north_texture;
+	char		*south_texture;
+	char		*west_texture;
+	char		*east_texture;
+	int			floor_color;
+	int			ceiling_color;
 	int			keys[256];
 	int			key_left;
 	int			key_right;
@@ -136,7 +133,6 @@ typedef struct s_parse
 	t_player	player;
 }	t_parse;
 
-//int		ft_isdigit(char c);
 int		wspace_check(char c);
 int		parsing(t_parse *parse, int ac, char **av);
 int		parse_file(t_parse *p, char **av);

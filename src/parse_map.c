@@ -6,12 +6,14 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 16:39:18 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/14 15:30:33 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 09:31:17 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
+//check and free line
+//check which line ends
 void	parse_map(t_parse *p, char *line, int *line_no)
 {
 	while (!check_ids_reg(p))
@@ -29,6 +31,8 @@ void	parse_map(t_parse *p, char *line, int *line_no)
 	p->map_flag = 2;
 }
 
+//store line by line. free line
+//check something after map
 int	map_store(t_parse *p, char **av)
 {
 	int		line_no;
@@ -53,6 +57,7 @@ int	map_store(t_parse *p, char **av)
 	return (0);
 }
 
+//check flood fill, player registered
 void	postcheck_map(t_parse *p)
 {
 	if (!p->player_flag)

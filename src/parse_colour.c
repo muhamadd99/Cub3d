@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/14 17:12:45 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:28:35 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ char	**parse_col_substr2(char **str)
 	return (free_twop(str), new_str);
 }
 
+//check number bigger than 255
+//cast uchar to prevent big number & negative
+//bitshift
 int	parse_col_toint2(t_parse *p, char **str)
 {
 	int				hexa_colour;
@@ -95,6 +98,9 @@ void	parse_col_store(t_parse *p, char c, int hexa_col)
 		p->ceiling_value = hexa_col;
 }
 
+//if between the colour other than space and notdigit. exit
+//if at the end it is okay.
+//if after colour can have whitespace
 int	ft_strdigit(char **str)
 {
 	int	i;

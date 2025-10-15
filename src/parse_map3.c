@@ -6,37 +6,25 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 21:21:26 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/12 15:22:27 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:37:47 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
 //p: store map in 2d array
-int	store_map_line(t_parse *p, char *line, int line_no)
+int	map_store_line(t_parse *p, char *line, int line_no)
 {
-	if (allocate_map(p, &p->map))
+	if (map_allocate(p, &p->map))
 		return (1);
-	if (allocate_map(p, &p->map_copy))
+	if (map_allocate(p, &p->map_copy))
 		return (1);
-	store_map_array(p, line, line_no);
-	copy_map_array(p, p->map_copy);
+	map_fill(p, line, line_no);
+	map_copy(p, p->map_copy);
 	return (0);
 }
 
-void	copy_map_array(t_parse *p, char **map)
-{
-	int	i;
-
-	i = 0;
-	while (i < p->max_height)
-	{
-		ft_memcpy(map[i], p->map[i], p->max_width);
-		i++;
-	}
-}
-
-int	allocate_map(t_parse *p, char ***map)
+int	map_allocate(t_parse *p, char ***map)
 {
 	int		i;
 
@@ -58,7 +46,7 @@ int	allocate_map(t_parse *p, char ***map)
 	return (0);
 }
 
-void	store_map_array(t_parse *p, char *line, int line_no)
+void	map_fill(t_parse *p, char *line, int line_no)
 {
 	int	i;
 	int	height;
@@ -78,6 +66,18 @@ void	store_map_array(t_parse *p, char *line, int line_no)
 		}
 		else
 			p->map[height][i] = '0';
+		i++;
+	}
+}
+
+void	map_copy(t_parse *p, char **map)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->max_height)
+	{
+		ft_memcpy(map[i], p->map[i], p->max_width);
 		i++;
 	}
 }

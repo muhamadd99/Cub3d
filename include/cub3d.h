@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 15:59:01 by abin-moh         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:42:50 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ typedef struct s_parse
 	int			map_flag;
 	int			player_flag;
 	t_player	player;
-	//t_game		*game;
 }	t_parse;
 
 //int		ft_isdigit(char c);
@@ -143,7 +142,7 @@ int		parsing(t_parse *parse, int ac, char **av);
 int		parse_file(t_parse *p, char **av);
 int		check_ids_reg(t_parse *p);
 int		check_nonspace(char *line);
-int		check_line(t_parse *parse, char *line);
+int		parse_id_line(t_parse *parse, char *line);
 void	free_map(t_parse *p, t_game *g, char **str);
 void	free_twop(char **str);
 void	skip_whitespace(char *line, int *i);
@@ -156,34 +155,33 @@ void	print_param_map(int height, int width, char **map);
 void	skip_space_not(char *line, int *i, int space);
 
 //texture & colour handling
-void	check_line_idmap(t_parse *p, char **av);
-int		check_id_string(t_parse *parse, char *line, int *i);
-void	check_ids(t_parse *p, char *line, int *line_no);
-void	check_maps(t_parse *p, char *line, int *line_no);
-void	colour_filled(t_parse *p, char c);
-int		colour_digit(t_parse *p, char *line, int *i);
-int		colour_digit2(t_parse *p, char **str);
+void	parse_idmap(t_parse *p, char **av);
+int		parse_id_key(t_parse *parse, char *line, int *i);
+void	parse_id(t_parse *p, char *line, int *line_no);
+void	parse_map(t_parse *p, char *line, int *line_no);
+void	parse_col_reg(t_parse *p, char c, char *line);
+int		parse_col_toint(t_parse *p, char *line, int *i);
+int		parse_col_toint2(t_parse *p, char **str);
 int		ft_strdigit(char **str);
 void	parse_texture(t_parse *p, int id, char *line, int *i);
-char	*texture_path(t_parse *p, char *line, int *i);
+char	*parse_tex_path(t_parse *p, char *line, int *i);
 void	parse_colour(t_parse *p, char c, char *line, int *i);
-char	**remove_spaces(t_parse *p, char **str);
-void	store_colour(t_parse *p, char c, int hexa_col);
-int		store_map(t_parse *p, char **av);
-char	**substr_colour(char **str);
+char	**parse_col_substr(char **str);
+void	parse_col_store(t_parse *p, char c, int hexa_col);
+char	**parse_col_substr2(char **str);
 void	postcheck_map(t_parse *p);
 
 //map handling
-int		allocate_map(t_parse *p, char ***map);
-int		proc_map(t_parse *p, char *line, int line_no);
-int		check_map(t_parse *p, char *line, int line_no);
+int		map_allocate(t_parse *p, char ***map);
+int		map_check(t_parse *p, char *line, int line_no);
+int		map_char(t_parse *p, char *line, int line_no);
 int		flood_fill(t_parse *p, int x, int y);
-void	copy_map_array(t_parse *p, char **map);
-int		map_nondigit_case(t_parse *p, char *line, int line_no, int i);
-int		map_reg(t_parse *p, char c, int i, int line_no);
-int		store_map(t_parse *p, char **av);
-int		store_map_line(t_parse *p, char *line, int line_no);
-void	store_map_array(t_parse *p, char *line, int line_no);
+void	map_copy(t_parse *p, char **map);
+int		map_nondigit(t_parse *p, char *line, int line_no, int i);
+int		parse_player(t_parse *p, char c, int i, int line_no);
+int		map_store(t_parse *p, char **av);
+int		map_store_line(t_parse *p, char *line, int line_no);
+void	map_fill(t_parse *p, char *line, int line_no);
 
 //muz
 void	free_tex(t_game *game);

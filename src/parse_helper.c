@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:55:52 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/12 00:19:16 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:36:02 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,11 @@ void	free_map(t_parse *p, t_game *g, char **str)
 void	skip_space_not(char *line, int *i, int space)
 {
 	if (space)
-	{
-		while (wspace_check(line[*i]) == 1 && line[*i])
+		while (line[*i] && wspace_check(line[*i]) == 1)
 			(*i)++;
-	}
 	else
-	{
-		while (wspace_check(line[*i]) == 0 && line[*i])
+		while (line[*i] && wspace_check(line[*i]) == 0)
 			(*i)++;
-	}
 }
 
 void	skip_whitespace(char *line, int *i)

@@ -24,7 +24,7 @@ SRC = \
 		$(SRC_DIR)/render.c \
 		$(SRC_DIR)/parse.c \
 		$(SRC_DIR)/parse2.c \
-		$(SRC_DIR)/parse_texture.c \
+		$(SRC_DIR)/parse_tex_col.c \
 		$(SRC_DIR)/parse_colour.c \
 		$(SRC_DIR)/parse_map.c \
 		$(SRC_DIR)/parse_map2.c \

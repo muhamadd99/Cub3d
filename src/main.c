@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:58:17 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/13 15:35:14 by abin-moh         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:35:15 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../include/cub3d.h"
 
+//print_param2(&game);//importantdebug
 int	main(int ac, char **av)
 {
 	t_parse	parse;
 	t_game	game;
 
-	if (parsing (&parse, ac, av) == 1)
+	if (parsing(&parse, ac, av) == 1)
 		print_error(&parse, "Invalid file", NULL);
 	if (parse_to_exec(&parse, &game) == 1)
 		return (1);
@@ -44,9 +45,9 @@ int	parse_to_exec(t_parse *p, t_game *g)
 	g->ceiling_color = p->ceiling_value;
 	g->map_width = p->max_width;
 	g->map_height = p->max_height;
-	if (allocate_map(p, &g->map) == 1)
+	if (map_allocate(p, &g->map) == 1)
 		return (1);
-	copy_map_array(p, g->map);
+	map_copy(p, g->map);
 	g->player = p->player;
 	g->map[(int)g->player.pos_y][(int)g->player.pos_x] = '0';
 	g->player.pos_x += 0.5;

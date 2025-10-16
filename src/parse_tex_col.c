@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 15:03:11 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 13:16:54 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/16 07:04:27 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*parse_tex_path(t_parse *p, char *line, int *i)
 	new_str = ft_substr(line, start, len);
 	if (!new_str)
 		print_error(p, "memory allocation failed", line);
-	if (len < 5 || ft_strncmp(new_str + len - 4, ".xpm", 4))
+	if (len < 4 || ft_strncmp(new_str + len - 4, ".xpm", 4)) //change to 4
 	{
 		free(new_str);
 		print_error(p, "wrong file for texture", line);

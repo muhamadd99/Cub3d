@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 12:56:15 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 12:40:10 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/16 07:09:25 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ char	**parse_col_substr2(char **str)
 {
 	char	**new_str;
 	int		i;
-	int		j;
-	int		start;
 	int		error;
 
 	error = 0;
@@ -50,15 +48,7 @@ char	**parse_col_substr2(char **str)
 		return (NULL);
 	i = -1;
 	while (str[++i])
-	{
-		j = 0;
-		skip_space_not(str[i], &j, 1);
-		if (str[i][j] == '\n' || str[i][j] == '\0')
-			error = 1;
-		start = j;
-		skip_space_not(str[i], &j, 0);
-		new_str[i] = ft_substr(str[i], start, j - start);
-	}
+		parse_col_substr3(str, &new_str, i, &error);
 	new_str[3] = NULL;
 	if (error == 1)
 		return (free_twop(str), free_twop(new_str), NULL);

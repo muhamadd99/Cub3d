@@ -6,7 +6,7 @@
 /*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:43:42 by mbani-ya          #+#    #+#             */
-/*   Updated: 2025/10/15 13:18:34 by mbani-ya         ###   ########.fr       */
+/*   Updated: 2025/10/16 07:07:48 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,9 @@ void	parse_texture(t_parse *p, int id, char *line, int *i);
 char	*parse_tex_path(t_parse *p, char *line, int *i);
 void	parse_colour(t_parse *p, char c, char *line, int *i);
 char	**parse_col_substr(char **str);
-void	parse_col_store(t_parse *p, char c, int hexa_col);
 char	**parse_col_substr2(char **str);
+void	parse_col_substr3(char **str, char ***new_str, int i, int *error);
+void	parse_col_store(t_parse *p, char c, int hexa_col);
 void	postcheck_map(t_parse *p);
 
 //map handling

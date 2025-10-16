@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abin-moh <abin-moh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbani-ya <mbani-ya@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:07:00 by abin-moh          #+#    #+#             */
-/*   Updated: 2025/10/13 10:29:04 by abin-moh         ###   ########.fr       */
+/*   Updated: 2025/10/16 08:25:26 by mbani-ya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	move_forward(t_game *game)
 {
 	if (game->map[(int)(game->player.pos_y)]
-		[(int)(game->player.pos_x + game->player.dir_x * MOVE_SPEED)] == '0')
+		[(int)(game->player.pos_x + game->player.dir_x * MOVE_SPEED * 2)] == '0')
 		game->player.pos_x += game->player.dir_x * MOVE_SPEED;
-	if (game->map[(int)(game->player.pos_y + game->player.dir_y * MOVE_SPEED)]
+	if (game->map[(int)(game->player.pos_y + game->player.dir_y * MOVE_SPEED * 2)]
 		[(int)(game->player.pos_x)] == '0')
 		game->player.pos_y += game->player.dir_y * MOVE_SPEED;
 }
@@ -25,9 +25,9 @@ void	move_forward(t_game *game)
 void	move_backward(t_game *game)
 {
 	if (game->map[(int)(game->player.pos_y)]
-		[(int)(game->player.pos_x - game->player.dir_x * MOVE_SPEED)] == '0')
+		[(int)(game->player.pos_x - game->player.dir_x * MOVE_SPEED * 2)] == '0')
 		game->player.pos_x -= game->player.dir_x * MOVE_SPEED;
-	if (game->map[(int)(game->player.pos_y - game->player.dir_y * MOVE_SPEED)]
+	if (game->map[(int)(game->player.pos_y - game->player.dir_y * MOVE_SPEED * 2)]
 		[(int)(game->player.pos_x)] == '0')
 		game->player.pos_y -= game->player.dir_y * MOVE_SPEED;
 }
